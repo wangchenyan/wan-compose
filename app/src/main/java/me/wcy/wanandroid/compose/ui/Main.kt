@@ -6,9 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import me.wcy.wanandroid.compose.ui.widget.BottomTab
-import me.wcy.wanandroid.compose.ui.widget.Pager
-import me.wcy.wanandroid.compose.viewmodel.MainViewModel
+import me.wcy.wanandroid.compose.ui.home.Home
+import me.wcy.wanandroid.compose.ui.home.viewmodel.MainViewModel
+import me.wcy.wanandroid.compose.ui.mine.Mine
+import me.wcy.wanandroid.compose.ui.square.Square
+import me.wcy.wanandroid.compose.ui.wechat.WeChat
+import me.wcy.wanandroid.compose.widget.BottomTab
+import me.wcy.wanandroid.compose.widget.Pager
 
 @Composable
 fun Main(navController: NavHostController) {
@@ -20,7 +24,7 @@ fun Main(navController: NavHostController) {
                     Home(navController)
                 }
                 1 -> {
-                    Square()
+                    Square(navController)
                 }
                 2 -> {
                     WeChat()

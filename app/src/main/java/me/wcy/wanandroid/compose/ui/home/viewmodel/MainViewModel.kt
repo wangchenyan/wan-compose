@@ -1,10 +1,10 @@
-package me.wcy.wanandroid.compose.viewmodel
+package me.wcy.wanandroid.compose.ui.home.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import me.wcy.wanandroid.compose.ui.widget.PagerState
+import me.wcy.wanandroid.compose.widget.PagerState
 
 /**
  * Created by wcy on 2021/3/31.

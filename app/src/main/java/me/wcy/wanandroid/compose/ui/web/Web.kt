@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui
+package me.wcy.wanandroid.compose.ui.web
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import me.wcy.wanandroid.compose.ui.widget.TitleBar
-import me.wcy.wanandroid.compose.viewmodel.WebViewModel
+import me.wcy.wanandroid.compose.ui.web.viewmodel.WebViewModel
+import me.wcy.wanandroid.compose.widget.TitleBar
 
 @Composable
 fun Web(navController: NavHostController, url: String) {

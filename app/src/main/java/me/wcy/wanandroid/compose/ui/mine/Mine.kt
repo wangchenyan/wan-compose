@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui
+package me.wcy.wanandroid.compose.ui.mine
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text

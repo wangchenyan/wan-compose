@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.viewmodel
+package me.wcy.wanandroid.compose.ui.web.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

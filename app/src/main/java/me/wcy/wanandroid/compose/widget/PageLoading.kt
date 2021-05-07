@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui.widget
+package me.wcy.wanandroid.compose.widget
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

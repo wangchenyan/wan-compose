@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.wcy.wanandroid.compose.ui.widget
+package me.wcy.wanandroid.compose.widget
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.Orientation

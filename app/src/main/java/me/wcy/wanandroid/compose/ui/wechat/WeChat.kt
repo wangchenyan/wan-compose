@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui
+package me.wcy.wanandroid.compose.ui.wechat
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -10,6 +10,6 @@ import androidx.compose.ui.Modifier
  */
 
 @Composable
-fun Square() {
-    Text(text = "广场", Modifier.fillMaxSize())
+fun WeChat() {
+    Text(text = "公众号", Modifier.fillMaxSize())
 }

@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui
+package me.wcy.wanandroid.compose.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,14 +18,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import me.wcy.wanandroid.compose.model.HomeArticle
-import me.wcy.wanandroid.compose.model.HomeBannerData
-import me.wcy.wanandroid.compose.ui.theme.Colors
-import me.wcy.wanandroid.compose.ui.widget.Banner
-import me.wcy.wanandroid.compose.ui.widget.BannerData
-import me.wcy.wanandroid.compose.ui.widget.PageLoading
-import me.wcy.wanandroid.compose.ui.widget.TitleBar
-import me.wcy.wanandroid.compose.viewmodel.HomeViewModel
+import me.wcy.wanandroid.compose.theme.Colors
+import me.wcy.wanandroid.compose.ui.home.model.Article
+import me.wcy.wanandroid.compose.ui.home.model.HomeBannerData
+import me.wcy.wanandroid.compose.ui.home.viewmodel.HomeViewModel
+import me.wcy.wanandroid.compose.widget.Banner
+import me.wcy.wanandroid.compose.widget.BannerData
+import me.wcy.wanandroid.compose.widget.PageLoading
+import me.wcy.wanandroid.compose.widget.TitleBar
 
 /**
  * Created by wcy on 2021/3/31.
@@ -34,15 +34,14 @@ import me.wcy.wanandroid.compose.viewmodel.HomeViewModel
 @Composable
 fun Home(navController: NavHostController) {
     val viewModel: HomeViewModel = viewModel()
-    viewModel.getHomeData()
     Column(Modifier.fillMaxSize()) {
         TitleBar(title = "首页")
-        PageLoading(loadState = viewModel.state, onReload = { viewModel.getHomeData() }) {
-            LazyColumn(Modifier.fillMaxWidth()) {
+        PageLoading(loadState = viewModel.state, onReload = { viewModel.getData() }) {
+            LazyColumn(Modifier.fillMaxSize()) {
                 itemsIndexed(viewModel.list) { index, item ->
                     if (item is List<*>) {
                         BannerItem(navController, item as List<HomeBannerData>)
-                    } else if (item is HomeArticle) {
+                    } else if (item is Article) {
                         ArticleItem(navController, item)
                         Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
                     }
@@ -66,7 +65,7 @@ fun BannerItem(navController: NavHostController, list: List<HomeBannerData>) {
 }
 
 @Composable
-fun ArticleItem(navController: NavHostController, article: HomeArticle) {
+fun ArticleItem(navController: NavHostController, article: Article) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .background(Colors.white)

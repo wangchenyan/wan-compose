@@ -1,28 +1,12 @@
-package me.wcy.wanandroid.compose.model
+package me.wcy.wanandroid.compose.ui.home.model
 
 import androidx.compose.ui.graphics.Color
 import com.google.gson.annotations.SerializedName
-import me.wcy.wanandroid.compose.ui.theme.Colors
+import me.wcy.wanandroid.compose.theme.Colors
 
-
-/**
- * Created by wcy on 2021/4/1.
- */
-
-data class HomeBannerData(
-    @SerializedName("id") val id: Long = 0,
-    @SerializedName("desc") val desc: String = "",
-    @SerializedName("imagePath") val imagePath: String = "",
-    @SerializedName("isVisible") val isVisible: Int = 0,
-    @SerializedName("order") val order: Int = 0,
-    @SerializedName("title") val title: String = "",
-    @SerializedName("type") val type: Int = 0,
-    @SerializedName("url") val url: String = ""
-)
-
-data class HomeArticleList(
+data class ArticleList(
     @SerializedName("curPage") val curPage: Int = 0,
-    @SerializedName("datas") val datas: List<HomeArticle> = listOf(),
+    @SerializedName("datas") val datas: List<Article> = listOf(),
     @SerializedName("offset") val offset: Int = 0,
     @SerializedName("over") val over: Boolean = false,
     @SerializedName("pageCount") val pageCount: Int = 0,
@@ -30,7 +14,7 @@ data class HomeArticleList(
     @SerializedName("total") val total: Int = 0
 )
 
-data class HomeArticle(
+data class Article(
     @SerializedName("id") val id: Long = 0,
     @SerializedName("apkLink") val apkLink: String = "",
     @SerializedName("audit") val audit: Int = 0,
@@ -58,7 +42,7 @@ data class HomeArticle(
     @SerializedName("shareUser") val shareUser: String = "",
     @SerializedName("superChapterId") val superChapterId: Int = 0,
     @SerializedName("superChapterName") val superChapterName: String = "",
-    @SerializedName("tags") val tags: MutableList<HomeArticleTag> = mutableListOf(),
+    @SerializedName("tags") val tags: MutableList<ArticleTag> = mutableListOf(),
     @SerializedName("title") val title: String = "",
     @SerializedName("type") val type: Int = 0,
     @SerializedName("userId") val userId: Int = 0,
@@ -70,7 +54,7 @@ data class HomeArticle(
     }
 }
 
-data class HomeArticleTag(
+data class ArticleTag(
     @SerializedName("name") val name: String = "",
     @SerializedName("url") val url: String = ""
 ) {

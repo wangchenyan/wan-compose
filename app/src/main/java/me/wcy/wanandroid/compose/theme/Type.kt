@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui.theme
+package me.wcy.wanandroid.compose.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui.widget
+package me.wcy.wanandroid.compose.widget
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import me.wcy.wanandroid.compose.R
-import me.wcy.wanandroid.compose.ui.theme.Colors
+import me.wcy.wanandroid.compose.theme.Colors
 
 /**
  * Created by wcy on 2021/3/31.

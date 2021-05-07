@@ -1,13 +1,13 @@
-package me.wcy.wanandroid.compose.ui.widget
+package me.wcy.wanandroid.compose.widget
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,10 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.wcy.wanandroid.compose.ui.theme.Colors
+import me.wcy.wanandroid.compose.theme.Colors
 
 /**
  * Created by wcy on 2021/4/1.
@@ -30,22 +33,35 @@ data class BannerData(
     val jumpUrl: String
 )
 
-@SuppressLint("CoroutineCreationDuringComposition")
+class BannerViewModel : ViewModel() {
+    var pagerState by mutableStateOf(PagerState())
+    private var count = 0
+
+    init {
+        viewModelScope.launch {
+            repeat(Int.MAX_VALUE) {
+                delay(3000)
+                if (count > 0) {
+                    pagerState.currentPage = (pagerState.currentPage + 1) % count
+                }
+            }
+        }
+    }
+
+    fun setCount(count: Int) {
+        this.count = count
+        pagerState.maxPage = count - 1
+    }
+}
+
 @Composable
 fun Banner(
     modifier: Modifier,
     dataList: List<BannerData>
 ) {
-    val pagerState: PagerState = remember {
-        PagerState(maxPage = dataList.size - 1)
-    }
-    rememberCoroutineScope().launch {
-        repeat(Int.MAX_VALUE) {
-            delay(3000)
-            pagerState.currentPage = (pagerState.currentPage + 1) % dataList.size
-        }
-    }
-    Pager(state = pagerState, modifier) {
+    val viewModel: BannerViewModel = viewModel()
+    viewModel.setCount(dataList.size)
+    Pager(state = viewModel.pagerState, modifier = modifier, offscreenLimit = dataList.size - 1) {
         val bannerData = dataList[page]
         Box(modifier = Modifier.fillMaxSize()) {
             GlideImage(
@@ -80,7 +96,8 @@ fun Banner(
                             .width(8.dp)
                             .height(0.dp)
                     )
-                    val color = if (i == pagerState.currentPage) Colors.white else Color.LightGray
+                    val color =
+                        if (i == viewModel.pagerState.currentPage) Colors.white else Color.LightGray
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)

@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import me.wcy.wanandroid.compose.ui.Main
-import me.wcy.wanandroid.compose.ui.Web
+import me.wcy.wanandroid.compose.ui.web.Web
 
 @Composable
 fun ComposeNavigation() {
