@@ -6,25 +6,32 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.ui.home.model.ArticleTag
 import me.wcy.wanandroid.compose.widget.LoadState
+import me.wcy.wanandroid.compose.widget.Toaster
 
 /**
  * Created by wcy on 2021/4/1.
  */
 class HomeViewModel : ViewModel() {
-    var state by mutableStateOf(LoadState.LOADING)
+    var pageState by mutableStateOf(LoadState.LOADING)
     var list by mutableStateOf(mutableListOf<Any>())
+    var refreshingState by mutableStateOf(false)
+    var loadState by mutableStateOf(false)
+    private var page = 0
 
     init {
-        getData()
+        firstLoad()
     }
 
-    fun getData() {
+    fun firstLoad() {
         viewModelScope.launch {
+            page = 0
+            pageState = LoadState.LOADING
             val bannerDeffer = async { apiCall { Api.get().getHomeBanner() } }
             val stickDeffer = async { apiCall { Api.get().getStickyArticle() } }
             val articleDeffer = async { apiCall { Api.get().getHomeArticleList() } }
@@ -32,7 +39,7 @@ class HomeViewModel : ViewModel() {
             val stickyRes = stickDeffer.await()
             val articleRes = articleDeffer.await()
             if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
-                state = LoadState.SUCCESS
+                pageState = LoadState.SUCCESS
                 list = list.apply {
                     clear()
                     add(bannerRes.data!!)
@@ -42,7 +49,49 @@ class HomeViewModel : ViewModel() {
                     addAll(articleRes.data!!.datas)
                 }
             } else {
-                state = LoadState.FAIL
+                pageState = LoadState.FAIL
+            }
+        }
+    }
+
+    fun onRefresh() {
+        viewModelScope.launch {
+            page = 0
+            refreshingState = true
+            val bannerDeffer = async { apiCall { Api.get().getHomeBanner() } }
+            val stickDeffer = async { apiCall { Api.get().getStickyArticle() } }
+            val articleDeffer = async { apiCall { Api.get().getHomeArticleList() } }
+            val bannerRes = bannerDeffer.await()
+            val stickyRes = stickDeffer.await()
+            val articleRes = articleDeffer.await()
+            if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
+                list = list.apply {
+                    clear()
+                    add(bannerRes.data!!)
+                    addAll(stickyRes.data!!.onEach {
+                        it.tags.add(0, ArticleTag("置顶"))
+                    })
+                    addAll(articleRes.data!!.datas)
+                }
+                refreshingState = false
+            } else {
+                refreshingState = false
+                Toaster.show("加载失败")
+            }
+        }
+    }
+
+    fun onLoad() {
+        viewModelScope.launch {
+            loadState = true
+            val articleList = apiCall { Api.get().getHomeArticleList(page + 1) }
+            if (articleList.isSuccess()) {
+                page++
+                list.addAll(articleList.data!!.datas)
+                loadState = false
+            } else {
+                loadState = false
+                Toaster.show("加载失败")
             }
         }
     }

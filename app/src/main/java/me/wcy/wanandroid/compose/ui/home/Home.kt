@@ -22,10 +22,7 @@ import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.ui.home.model.HomeBannerData
 import me.wcy.wanandroid.compose.ui.home.viewmodel.HomeViewModel
-import me.wcy.wanandroid.compose.widget.Banner
-import me.wcy.wanandroid.compose.widget.BannerData
-import me.wcy.wanandroid.compose.widget.PageLoading
-import me.wcy.wanandroid.compose.widget.TitleBar
+import me.wcy.wanandroid.compose.widget.*
 
 /**
  * Created by wcy on 2021/3/31.
@@ -36,14 +33,20 @@ fun Home(navController: NavHostController) {
     val viewModel: HomeViewModel = viewModel()
     Column(Modifier.fillMaxSize()) {
         TitleBar(title = "首页")
-        PageLoading(loadState = viewModel.state, onReload = { viewModel.getData() }) {
-            LazyColumn(Modifier.fillMaxSize()) {
-                itemsIndexed(viewModel.list) { index, item ->
-                    if (item is List<*>) {
-                        BannerItem(navController, item as List<HomeBannerData>)
-                    } else if (item is Article) {
-                        ArticleItem(navController, item)
-                        Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
+        PageLoading(loadState = viewModel.pageState, onReload = { viewModel.firstLoad() }) {
+            SwipeToRefreshAndLoadLayout(
+                refreshingState = viewModel.refreshingState,
+                loadState = viewModel.loadState,
+                onRefresh = { viewModel.onRefresh() },
+                onLoad = { viewModel.onLoad() }) {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    itemsIndexed(viewModel.list) { index, item ->
+                        if (item is List<*>) {
+                            BannerItem(navController, item as List<HomeBannerData>)
+                        } else if (item is Article) {
+                            ArticleItem(navController, item)
+                            Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
+                        }
                     }
                 }
             }

@@ -10,29 +10,68 @@ import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.widget.LoadState
+import me.wcy.wanandroid.compose.widget.Toaster
 
 /**
  * Created by wcy on 2021/4/1.
  */
 class SquareViewModel : ViewModel() {
-    var state by mutableStateOf(LoadState.LOADING)
+    var pageState by mutableStateOf(LoadState.LOADING)
     var list by mutableStateOf(mutableListOf<Article>())
+    var refreshingState by mutableStateOf(false)
+    var loadState by mutableStateOf(false)
+    private var page = 0
 
     init {
-        getData()
+        firstLoad()
     }
 
-    fun getData() {
+    fun firstLoad() {
         viewModelScope.launch {
+            page = 0
+            pageState = LoadState.LOADING
             val articleList = apiCall { Api.get().getSquareArticleList() }
             if (articleList.isSuccess()) {
-                state = LoadState.SUCCESS
+                pageState = LoadState.SUCCESS
                 list = list.apply {
                     clear()
                     addAll(articleList.data!!.datas)
                 }
             } else {
-                state = LoadState.FAIL
+                pageState = LoadState.FAIL
+            }
+        }
+    }
+
+    fun onRefresh() {
+        viewModelScope.launch {
+            page = 0
+            refreshingState = true
+            val articleList = apiCall { Api.get().getSquareArticleList() }
+            if (articleList.isSuccess()) {
+                list = list.apply {
+                    clear()
+                    addAll(articleList.data!!.datas)
+                }
+                refreshingState = false
+            } else {
+                refreshingState = false
+                Toaster.show("加载失败")
+            }
+        }
+    }
+
+    fun onLoad() {
+        viewModelScope.launch {
+            loadState = true
+            val articleList = apiCall { Api.get().getSquareArticleList(page + 1) }
+            if (articleList.isSuccess()) {
+                page++
+                list.addAll(articleList.data!!.datas)
+                loadState = false
+            } else {
+                loadState = false
+                Toaster.show("加载失败")
             }
         }
     }
