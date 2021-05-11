@@ -35,7 +35,7 @@ fun Main(navController: NavHostController) {
                     Square(navController)
                 }
                 2 -> {
-                    WeChat()
+                    WeChat(navController)
                 }
                 3 -> {
                     Mine()

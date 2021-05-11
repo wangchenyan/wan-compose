@@ -1,5 +1,6 @@
 package me.wcy.wanandroid.compose.ui.square
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -24,7 +26,10 @@ import me.wcy.wanandroid.compose.widget.TitleBar
 @Composable
 fun Square(navController: NavHostController) {
     val viewModel: SquareViewModel = viewModel()
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
         TitleBar(title = "广场")
         PageLoading(
             loadState = viewModel.pageState,

@@ -17,7 +17,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
  */
 class SquareViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
-    var list by mutableStateOf(mutableListOf<Article>())
+    val list by mutableStateOf(mutableListOf<Article>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var page = 0
@@ -33,7 +33,7 @@ class SquareViewModel : ViewModel() {
             val articleList = apiCall { Api.get().getSquareArticleList() }
             if (articleList.isSuccess()) {
                 pageState = LoadState.SUCCESS
-                list = list.apply {
+                list.apply {
                     clear()
                     addAll(articleList.data!!.datas)
                 }
@@ -49,7 +49,7 @@ class SquareViewModel : ViewModel() {
             refreshingState = true
             val articleList = apiCall { Api.get().getSquareArticleList() }
             if (articleList.isSuccess()) {
-                list = list.apply {
+                list.apply {
                     clear()
                     addAll(articleList.data!!.datas)
                 }

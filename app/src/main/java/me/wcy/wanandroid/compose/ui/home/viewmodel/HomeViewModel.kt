@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
@@ -19,7 +18,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
  */
 class HomeViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
-    var list by mutableStateOf(mutableListOf<Any>())
+    val list by mutableStateOf(mutableListOf<Any>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var page = 0
@@ -40,7 +39,7 @@ class HomeViewModel : ViewModel() {
             val articleRes = articleDeffer.await()
             if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
                 pageState = LoadState.SUCCESS
-                list = list.apply {
+                list.apply {
                     clear()
                     add(bannerRes.data!!)
                     addAll(stickyRes.data!!.onEach {
@@ -65,7 +64,7 @@ class HomeViewModel : ViewModel() {
             val stickyRes = stickDeffer.await()
             val articleRes = articleDeffer.await()
             if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
-                list = list.apply {
+                list.apply {
                     clear()
                     add(bannerRes.data!!)
                     addAll(stickyRes.data!!.onEach {
