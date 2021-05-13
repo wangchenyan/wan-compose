@@ -12,13 +12,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
+import me.wcy.wanandroid.compose.R
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.ui.home.model.HomeBannerData
@@ -35,9 +35,15 @@ fun Home(navController: NavHostController) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Colors.background)
     ) {
-        TitleBar(title = "首页")
+        TitleBar(
+            title = "首页",
+            icon = R.drawable.ic_search,
+            onIconClick = {
+                Toaster.show("搜索")
+            }
+        )
         PageLoading(loadState = viewModel.pageState, onReload = { viewModel.firstLoad() }) {
             SwipeToRefreshAndLoadLayout(
                 refreshingState = viewModel.refreshingState,

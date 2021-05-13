@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import me.wcy.mockhttp.MockHttp
 import me.wcy.mockhttp.MockHttpOptions
+import me.wcy.wanandroid.compose.auth.AuthManager
 
 /**
  * Created by wcy on 2021/4/1.
@@ -17,6 +18,7 @@ class WanApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
+        AuthManager.init()
         val options = MockHttpOptions.Builder()
             .setMockServerPort(3000)
             .setMockSleepTime(500)

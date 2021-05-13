@@ -38,7 +38,7 @@ fun Main(navController: NavHostController) {
                     WeChat(navController)
                 }
                 3 -> {
-                    Mine()
+                    Mine(navController)
                 }
             }
         }

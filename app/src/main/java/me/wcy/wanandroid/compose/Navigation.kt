@@ -5,6 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import me.wcy.wanandroid.compose.ui.Main
+import me.wcy.wanandroid.compose.ui.mine.CollectList
+import me.wcy.wanandroid.compose.ui.mine.Login
 import me.wcy.wanandroid.compose.ui.web.Web
 
 @Composable
@@ -16,5 +18,7 @@ fun ComposeNavigation() {
             val url = backStackEntry.arguments?.getString("url") ?: ""
             Web(navController, url)
         }
+        composable("login") { Login(navController) }
+        composable("collect") { CollectList(navController) }
     }
 }

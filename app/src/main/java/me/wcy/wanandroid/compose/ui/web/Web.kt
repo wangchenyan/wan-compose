@@ -8,6 +8,7 @@ import android.os.Build
 import android.text.TextUtils
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
@@ -23,7 +24,10 @@ import me.wcy.wanandroid.compose.widget.TitleBar
 @Composable
 fun Web(navController: NavHostController, url: String) {
     val viewModel: WebViewModel = viewModel()
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
         TitleBar(title = viewModel.title, onBack = {
             navController.popBackStack()
         })

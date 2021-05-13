@@ -1,6 +1,10 @@
 package me.wcy.wanandroid.compose.api
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import me.wcy.mockhttp.MockHttpInterceptor
+import me.wcy.wanandroid.compose.WanApplication
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,6 +22,12 @@ object Api {
             .readTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(MockHttpInterceptor())
+            .cookieJar(
+                PersistentCookieJar(
+                    SetCookieCache(),
+                    SharedPrefsCookiePersistor(WanApplication.context)
+                )
+            )
             .build()
     }
 

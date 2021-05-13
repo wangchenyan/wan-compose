@@ -1,11 +1,11 @@
 package me.wcy.wanandroid.compose.api
 
+import me.wcy.wanandroid.compose.auth.User
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.ui.home.model.ArticleList
 import me.wcy.wanandroid.compose.ui.home.model.HomeBannerData
 import me.wcy.wanandroid.compose.ui.wechat.model.WeChatAuthor
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Created by wcy on 2021/4/1.
@@ -31,4 +31,20 @@ interface IApi {
         @Path("id") id: Long,
         @Path("page") page: Int = 0
     ): Response<ArticleList>
+
+    @FormUrlEncoded
+    @POST("user/login")
+    suspend fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Response<User>
+
+    @GET("user/logout/json")
+    suspend fun logout(): Response<String>
+
+    @GET("lg/coin/userinfo/json")
+    suspend fun getUserCoin(): Response<User>
+
+    @GET("lg/collect/list/{page}/json")
+    suspend fun getCollectArticleList(@Path("page") page: Int = 0): Response<ArticleList>
 }

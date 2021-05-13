@@ -39,8 +39,8 @@ fun TitleBar(
                     .clickable {
                         onBack.invoke()
                     }
-                    .size(36.dp)
-                    .padding(8.dp),
+                    .size(48.dp)
+                    .padding(14.dp),
                 painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = "返回",
                 tint = Colors.text_h1
@@ -62,11 +62,11 @@ fun TitleBar(
                     .clickable {
                         onIconClick?.invoke()
                     }
-                    .size(36.dp)
-                    .padding(8.dp),
+                    .size(48.dp)
+                    .padding(14.dp),
                 painter = painterResource(id = icon),
                 contentDescription = "",
-                tint = Colors.white
+                tint = Colors.text_h1
             )
         }
     }
