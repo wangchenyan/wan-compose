@@ -18,12 +18,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
-import me.wcy.wanandroid.compose.R
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
 import me.wcy.wanandroid.compose.ui.wechat.model.WeChatTabViewModel
 import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatViewModel
-import me.wcy.wanandroid.compose.widget.*
+import me.wcy.wanandroid.compose.widget.PageLoading
+import me.wcy.wanandroid.compose.widget.Pager
+import me.wcy.wanandroid.compose.widget.SwipeToLoadLayout
+import me.wcy.wanandroid.compose.widget.TitleBar
 
 /**
  * Created by wcy on 2021/3/31.
@@ -37,12 +39,7 @@ fun WeChat(navController: NavHostController) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(
-            title = "公众号",
-            icon = R.drawable.ic_search,
-            onIconClick = {
-                Toaster.show("搜索")
-            })
+        TitleBar(title = "公众号")
         PageLoading(
             loadState = viewModel.pageState,
             onReload = { viewModel.getAuthorList() }) {

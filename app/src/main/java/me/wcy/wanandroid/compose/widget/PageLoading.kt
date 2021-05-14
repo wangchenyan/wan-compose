@@ -19,7 +19,8 @@ import androidx.compose.ui.graphics.Color
 enum class LoadState {
     LOADING,
     SUCCESS,
-    FAIL
+    FAIL,
+    EMPTY
 }
 
 @Composable
@@ -35,16 +36,6 @@ fun PageLoading(
             LoadState.LOADING -> {
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
-            LoadState.FAIL -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { onReload.invoke() }) {
-                    Text(
-                        text = "加载失败，点击重试",
-                        Modifier.align(Alignment.Center)
-                    )
-                }
-            }
             LoadState.SUCCESS -> {
                 content.invoke(this)
                 if (showLoading) {
@@ -59,6 +50,26 @@ fun PageLoading(
                             color = Color.White
                         )
                     }
+                }
+            }
+            LoadState.FAIL -> {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onReload.invoke() }) {
+                    Text(
+                        text = "加载失败，点击重试",
+                        Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            LoadState.EMPTY -> {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onReload.invoke() }) {
+                    Text(
+                        text = "这里什么都没有",
+                        Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }

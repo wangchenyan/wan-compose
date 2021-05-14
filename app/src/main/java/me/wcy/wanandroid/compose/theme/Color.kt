@@ -11,7 +11,7 @@ object Colors {
     val main = Color(0xFF43A047)
     val background = Color(0xFFEDEDED)
     val unselect = Color(0xFF424242)
-    val titleBar = Color(0xFFEDEDED)
+    val titleBar = Color.White
     val bottomBar = Color(0xFFF7F7F7)
     val white = Color.White
     val text_h1 = Color(0xFF212121)

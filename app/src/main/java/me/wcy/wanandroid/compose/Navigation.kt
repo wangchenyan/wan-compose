@@ -7,6 +7,8 @@ import androidx.navigation.compose.rememberNavController
 import me.wcy.wanandroid.compose.ui.Main
 import me.wcy.wanandroid.compose.ui.mine.CollectList
 import me.wcy.wanandroid.compose.ui.mine.Login
+import me.wcy.wanandroid.compose.ui.search.Search
+import me.wcy.wanandroid.compose.ui.search.SearchResult
 import me.wcy.wanandroid.compose.ui.web.Web
 
 @Composable
@@ -20,5 +22,10 @@ fun ComposeNavigation() {
         }
         composable("login") { Login(navController) }
         composable("collect") { CollectList(navController) }
+        composable("search") { Search(navController) }
+        composable("search_result?keyword={keyword}") { backStackEntry ->
+            val keyword = backStackEntry.arguments?.getString("keyword") ?: ""
+            SearchResult(navController, keyword)
+        }
     }
 }

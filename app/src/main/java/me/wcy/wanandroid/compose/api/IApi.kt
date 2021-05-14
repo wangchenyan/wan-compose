@@ -4,6 +4,7 @@ import me.wcy.wanandroid.compose.auth.User
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.ui.home.model.ArticleList
 import me.wcy.wanandroid.compose.ui.home.model.HomeBannerData
+import me.wcy.wanandroid.compose.ui.search.HotKey
 import me.wcy.wanandroid.compose.ui.wechat.model.WeChatAuthor
 import retrofit2.http.*
 
@@ -53,4 +54,13 @@ interface IApi {
 
     @POST("lg/uncollect_originId/{id}/json")
     suspend fun uncollect(@Path("id") id: Long): Response<String>
+
+    @GET("hotkey/json")
+    suspend fun searchHotKey(): Response<List<HotKey>>
+
+    @POST("article/query/{page}/json")
+    suspend fun search(
+        @Path("page") page: Int,
+        @Query("k") keyword: String,
+    ): Response<ArticleList>
 }

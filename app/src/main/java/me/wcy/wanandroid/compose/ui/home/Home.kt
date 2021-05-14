@@ -44,7 +44,7 @@ fun Home(navController: NavHostController) {
             title = "首页",
             icon = R.drawable.ic_search,
             onIconClick = {
-                Toaster.show("搜索")
+                navController.navigate("search")
             }
         )
         PageLoading(
