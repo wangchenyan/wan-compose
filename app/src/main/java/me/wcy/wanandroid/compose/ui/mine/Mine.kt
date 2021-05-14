@@ -154,7 +154,7 @@ fun Mine(navController: NavHostController) {
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(22.dp),
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Red,
+                        backgroundColor = Colors.red,
                         contentColor = Color.White
                     )
                 ) {

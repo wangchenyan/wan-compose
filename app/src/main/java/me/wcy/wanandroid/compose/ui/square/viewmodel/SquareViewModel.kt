@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.ui.home.model.Article
+import me.wcy.wanandroid.compose.ui.mine.viewmodel.CollectViewModel
 import me.wcy.wanandroid.compose.widget.LoadState
 import me.wcy.wanandroid.compose.widget.Toaster
 
@@ -17,6 +18,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
  */
 class SquareViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
+    var showLoading by mutableStateOf(false)
     val list by mutableStateOf(mutableListOf<Article>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
@@ -73,6 +75,14 @@ class SquareViewModel : ViewModel() {
                 loadState = false
                 Toaster.show("加载失败")
             }
+        }
+    }
+
+    fun collect(article: Article) {
+        viewModelScope.launch {
+            showLoading = true
+            CollectViewModel.collect(article)
+            showLoading = false
         }
     }
 }

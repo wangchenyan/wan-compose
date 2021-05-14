@@ -22,7 +22,7 @@ data class Article(
     @SerializedName("canEdit") val canEdit: Boolean = false,
     @SerializedName("chapterId") val chapterId: Int = 0,
     @SerializedName("chapterName") val chapterName: String = "",
-    @SerializedName("collect") val collect: Boolean = false,
+    @SerializedName("collect") var collect: Boolean = false,
     @SerializedName("courseId") val courseId: Int = 0,
     @SerializedName("desc") val desc: String = "",
     @SerializedName("descMd") val descMd: String = "",
@@ -47,7 +47,8 @@ data class Article(
     @SerializedName("type") val type: Int = 0,
     @SerializedName("userId") val userId: Int = 0,
     @SerializedName("visible") val visible: Int = 0,
-    @SerializedName("zan") val zan: Int = 0
+    @SerializedName("zan") val zan: Int = 0,
+    @SerializedName("originId") val originId: Long = 0
 ) {
     fun getAuthor(): String {
         return if (author.isNotEmpty()) author else shareUser
@@ -60,7 +61,7 @@ data class ArticleTag(
 ) {
     fun getColor(): Color {
         return when (name) {
-            "置顶" -> Color(0xFFF44336)
+            "置顶" -> Colors.red
             "本站发布" -> Color(0xFF2196F3)
             "问答" -> Color(0xFF00BCD4)
             "公众号" -> Color(0xFF4CAF50)

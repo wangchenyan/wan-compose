@@ -8,25 +8,27 @@ import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.ui.home.model.Article
+import me.wcy.wanandroid.compose.ui.mine.viewmodel.CollectViewModel
 import me.wcy.wanandroid.compose.widget.Toaster
 
 class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long) {
-    val articleListMap by mutableStateOf(mutableListOf<Article>())
-    var refreshStateMap by mutableStateOf(false)
-    var loadStateMap by mutableStateOf(false)
+    var showLoading by mutableStateOf(false)
+    val articleList by mutableStateOf(mutableListOf<Article>())
+    var refreshState by mutableStateOf(false)
+    var loadState by mutableStateOf(false)
     private var pageMap = 0
 
     init {
         scope.launch {
-            refreshStateMap = true
+            refreshState = true
             pageMap = 0
             val articleList = apiCall { Api.get().getWeChatArticleList(id) }
             if (articleList.isSuccess()) {
-                articleListMap.clear()
-                articleListMap.addAll(articleList.data!!.datas)
-                refreshStateMap = false
+                this@WeChatTabViewModel.articleList.clear()
+                this@WeChatTabViewModel.articleList.addAll(articleList.data!!.datas)
+                refreshState = false
             } else {
-                refreshStateMap = false
+                refreshState = false
                 Toaster.show("加载失败")
             }
         }
@@ -34,16 +36,24 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
 
     fun loadArticleList() {
         scope.launch {
-            loadStateMap = true
+            loadState = true
             val articleList = apiCall { Api.get().getWeChatArticleList(id, pageMap + 1) }
             if (articleList.isSuccess()) {
                 pageMap++
-                articleListMap.addAll(articleList.data!!.datas)
-                loadStateMap = false
+                this@WeChatTabViewModel.articleList.addAll(articleList.data!!.datas)
+                loadState = false
             } else {
-                loadStateMap = false
+                loadState = false
                 Toaster.show("加载失败")
             }
+        }
+    }
+
+    fun collect(article: Article) {
+        scope.launch {
+            showLoading = true
+            CollectViewModel.collect(article)
+            showLoading = false
         }
     }
 }

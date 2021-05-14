@@ -38,7 +38,9 @@ fun CollectList(navController: NavHostController) {
                 onLoad = { viewModel.onLoad() }) {
                 LazyColumn(Modifier.fillMaxSize()) {
                     itemsIndexed(viewModel.list) { index, item ->
-                        ArticleItem(navController, item)
+                        ArticleItem(navController, item) {
+                            viewModel.uncollect(item)
+                        }
                         Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
                     }
                 }

@@ -98,13 +98,17 @@ fun WeChatTab(navController: NavHostController, scope: CoroutineScope, id: Long)
         WeChatTabViewModel(scope, id)
     }
     Column(Modifier.fillMaxSize()) {
-        SwipeToLoadLayout(
-            loadState = viewModel.loadStateMap,
-            onLoad = { viewModel.loadArticleList() }) {
-            LazyColumn(Modifier.fillMaxSize()) {
-                itemsIndexed(viewModel.articleListMap) { index, item ->
-                    ArticleItem(navController, item)
-                    Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
+        PageLoading(showLoading = viewModel.showLoading) {
+            SwipeToLoadLayout(
+                loadState = viewModel.loadState,
+                onLoad = { viewModel.loadArticleList() }) {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    itemsIndexed(viewModel.articleList) { index, item ->
+                        ArticleItem(navController, item) {
+                            viewModel.collect(item)
+                        }
+                        Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
+                    }
                 }
             }
         }

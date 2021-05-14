@@ -16,4 +16,5 @@ object Colors {
     val white = Color.White
     val text_h1 = Color(0xFF212121)
     val text_h2 = Color(0xFF757575)
+    val red = Color(0xFFF44336)
 }

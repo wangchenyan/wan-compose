@@ -42,7 +42,9 @@ fun Square(navController: NavHostController) {
         )
         PageLoading(
             loadState = viewModel.pageState,
-            onReload = { viewModel.firstLoad() }) {
+            onReload = { viewModel.firstLoad() },
+            showLoading = viewModel.showLoading
+        ) {
             SwipeToRefreshAndLoadLayout(
                 refreshingState = viewModel.refreshingState,
                 loadState = viewModel.loadState,
@@ -50,7 +52,9 @@ fun Square(navController: NavHostController) {
                 onLoad = { viewModel.onLoad() }) {
                 LazyColumn(Modifier.fillMaxSize()) {
                     itemsIndexed(viewModel.list) { index, item ->
-                        ArticleItem(navController, item)
+                        ArticleItem(navController, item) {
+                            viewModel.collect(item)
+                        }
                         Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
                     }
                 }

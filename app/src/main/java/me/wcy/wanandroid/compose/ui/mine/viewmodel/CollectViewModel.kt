@@ -17,6 +17,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
  */
 class CollectViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
+    var showLoading by mutableStateOf(false)
     val list by mutableStateOf(mutableListOf<Article>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
@@ -35,7 +36,7 @@ class CollectViewModel : ViewModel() {
                 pageState = LoadState.SUCCESS
                 list.apply {
                     clear()
-                    addAll(articleList.data!!.datas)
+                    addAll(articleList.data!!.datas.onEach { it.collect = true })
                 }
             } else {
                 pageState = LoadState.FAIL
@@ -51,7 +52,7 @@ class CollectViewModel : ViewModel() {
             if (articleList.isSuccess()) {
                 list.apply {
                     clear()
-                    addAll(articleList.data!!.datas)
+                    addAll(articleList.data!!.datas.onEach { it.collect = true })
                 }
                 refreshingState = false
             } else {
@@ -67,12 +68,50 @@ class CollectViewModel : ViewModel() {
             val articleList = apiCall { Api.get().getSquareArticleList(page + 1) }
             if (articleList.isSuccess()) {
                 page++
-                list.addAll(articleList.data!!.datas)
+                list.addAll(articleList.data!!.datas.onEach { it.collect = true })
                 loadState = false
             } else {
                 loadState = false
                 Toaster.show("加载失败")
             }
+        }
+    }
+
+    fun uncollect(article: Article) {
+        viewModelScope.launch {
+            showLoading = true
+            val res = collect(article) { it.originId }
+            if (res) {
+                onRefresh()
+            }
+            showLoading = false
+        }
+    }
+
+    companion object {
+        suspend fun collect(
+            article: Article,
+            getId: (article: Article) -> Long = { it.id }
+        ): Boolean {
+            val id = getId.invoke(article)
+            if (article.collect) {
+                val res = apiCall { Api.get().uncollect(id) }
+                if (res.isSuccessIgnoreData()) {
+                    article.collect = false
+                    return true
+                } else {
+                    Toaster.show(res.msg)
+                }
+            } else {
+                val res = apiCall { Api.get().collect(id) }
+                if (res.isSuccessIgnoreData()) {
+                    article.collect = true
+                    return true
+                } else {
+                    Toaster.show(res.msg)
+                }
+            }
+            return false
         }
     }
 }

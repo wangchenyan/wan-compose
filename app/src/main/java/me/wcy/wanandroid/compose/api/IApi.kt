@@ -47,4 +47,10 @@ interface IApi {
 
     @GET("lg/collect/list/{page}/json")
     suspend fun getCollectArticleList(@Path("page") page: Int = 0): Response<ArticleList>
+
+    @POST("lg/collect/{id}/json")
+    suspend fun collect(@Path("id") id: Long): Response<String>
+
+    @POST("lg/uncollect_originId/{id}/json")
+    suspend fun uncollect(@Path("id") id: Long): Response<String>
 }
