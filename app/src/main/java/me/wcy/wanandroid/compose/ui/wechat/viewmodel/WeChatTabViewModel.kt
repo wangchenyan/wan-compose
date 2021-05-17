@@ -16,12 +16,12 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
     var articleList by mutableStateOf(listOf<Article>())
     var refreshState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
-    private var pageMap = 0
+    private var page = 0
 
     init {
         scope.launch {
             refreshState = true
-            pageMap = 0
+            page = 0
             val res = apiCall { Api.get().getWeChatArticleList(id) }
             if (res.isSuccess()) {
                 articleList = res.data!!.datas
@@ -36,9 +36,9 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
     fun loadArticleList() {
         scope.launch {
             loadState = true
-            val res = apiCall { Api.get().getWeChatArticleList(id, pageMap + 1) }
+            val res = apiCall { Api.get().getWeChatArticleList(id, page + 1) }
             if (res.isSuccess()) {
-                pageMap++
+                page++
                 articleList = articleList.toMutableList().apply {
                     addAll(res.data!!.datas)
                 }

@@ -1,5 +1,6 @@
 package me.wcy.wanandroid.compose.ui.wechat.viewmodel
 
+import android.util.LongSparseArray
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +17,7 @@ class WeChatViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var pagerState by mutableStateOf(PagerState())
     var authorList by mutableStateOf(listOf<WeChatAuthor>())
+    val tabViewModelMap = LongSparseArray<WeChatTabViewModel>()
 
     init {
         getAuthorList()

@@ -10,14 +10,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.CoroutineScope
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
 import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatTabViewModel
@@ -78,7 +76,7 @@ fun WeChat(navController: NavHostController) {
                     ) {
                         WeChatTab(
                             navController,
-                            viewModel.viewModelScope,
+                            viewModel,
                             viewModel.authorList[page].id
                         )
                     }
@@ -89,23 +87,25 @@ fun WeChat(navController: NavHostController) {
 }
 
 @Composable
-fun WeChatTab(navController: NavHostController, scope: CoroutineScope, id: Long) {
-    val viewModel = remember {
-        WeChatTabViewModel(scope, id)
+fun WeChatTab(navController: NavHostController, viewModel: WeChatViewModel, id: Long) {
+    var tabViewModel = viewModel.tabViewModelMap[id]
+    if (tabViewModel == null) {
+        tabViewModel = WeChatTabViewModel(viewModel.viewModelScope, id)
+        viewModel.tabViewModelMap.put(id, tabViewModel)
     }
     Column(Modifier.fillMaxSize()) {
-        PageLoading(showLoading = viewModel.showLoading) {
+        PageLoading(showLoading = tabViewModel.showLoading) {
             SwipeToLoadLayout(
-                loadState = viewModel.loadState,
-                onLoad = { viewModel.loadArticleList() }) {
+                loadState = tabViewModel.loadState,
+                onLoad = { tabViewModel.loadArticleList() }) {
                 LazyColumn(
                     Modifier
                         .fillMaxSize()
                         .background(Colors.white)
                 ) {
-                    itemsIndexed(viewModel.articleList) { index, item ->
+                    itemsIndexed(tabViewModel.articleList) { index, item ->
                         ArticleItem(navController, item) {
-                            viewModel.collect(item)
+                            tabViewModel.collect(item)
                         }
                         Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
                     }
