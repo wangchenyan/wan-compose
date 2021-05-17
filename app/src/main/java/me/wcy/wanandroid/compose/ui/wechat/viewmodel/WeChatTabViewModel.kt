@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui.wechat.model
+package me.wcy.wanandroid.compose.ui.wechat.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +13,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
 
 class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long) {
     var showLoading by mutableStateOf(false)
-    val articleList by mutableStateOf(mutableListOf<Article>())
+    var articleList by mutableStateOf(listOf<Article>())
     var refreshState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var pageMap = 0
@@ -22,10 +22,9 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
         scope.launch {
             refreshState = true
             pageMap = 0
-            val articleList = apiCall { Api.get().getWeChatArticleList(id) }
-            if (articleList.isSuccess()) {
-                this@WeChatTabViewModel.articleList.clear()
-                this@WeChatTabViewModel.articleList.addAll(articleList.data!!.datas)
+            val res = apiCall { Api.get().getWeChatArticleList(id) }
+            if (res.isSuccess()) {
+                articleList = res.data!!.datas
                 refreshState = false
             } else {
                 refreshState = false
@@ -37,10 +36,12 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
     fun loadArticleList() {
         scope.launch {
             loadState = true
-            val articleList = apiCall { Api.get().getWeChatArticleList(id, pageMap + 1) }
-            if (articleList.isSuccess()) {
+            val res = apiCall { Api.get().getWeChatArticleList(id, pageMap + 1) }
+            if (res.isSuccess()) {
                 pageMap++
-                this@WeChatTabViewModel.articleList.addAll(articleList.data!!.datas)
+                articleList = articleList.toMutableList().apply {
+                    addAll(res.data!!.datas)
+                }
                 loadState = false
             } else {
                 loadState = false

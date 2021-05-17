@@ -14,8 +14,8 @@ import me.wcy.wanandroid.compose.widget.PagerState
 
 class WeChatViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
-    val pagerState by mutableStateOf(PagerState())
-    val authorList by mutableStateOf(mutableListOf<WeChatAuthor>())
+    var pagerState by mutableStateOf(PagerState())
+    var authorList by mutableStateOf(listOf<WeChatAuthor>())
 
     init {
         getAuthorList()
@@ -27,9 +27,8 @@ class WeChatViewModel : ViewModel() {
             val authorListRes = apiCall { Api.get().getWeChatAuthorList() }
             if (authorListRes.isSuccess()) {
                 pageState = LoadState.SUCCESS
-                authorList.clear()
-                authorList.addAll(authorListRes.data!!)
-                pagerState.maxPage = authorList.size - 1
+                authorList = authorListRes.data!!
+                pagerState = PagerState(maxPage = authorList.size - 1)
             } else {
                 pageState = LoadState.FAIL
             }

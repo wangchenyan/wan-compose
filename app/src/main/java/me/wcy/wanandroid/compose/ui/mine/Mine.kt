@@ -62,7 +62,7 @@ fun Mine(navController: NavHostController) {
             Spacer(modifier = Modifier.height(15.dp))
             Row {
                 Box(
-                    modifier = Modifier.background(Color(0xFF039A61))
+                    modifier = Modifier.background(Colors.green)
                 ) {
                     Text(
                         text = "LV" + (viewModel.user?.level ?: ""),
@@ -73,7 +73,7 @@ fun Mine(navController: NavHostController) {
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 Box(
-                    modifier = Modifier.background(Color(0xFF1D93FB))
+                    modifier = Modifier.background(Colors.blue)
                 ) {
                     Text(
                         text = "排名" + (viewModel.user?.rank ?: ""),
@@ -148,7 +148,7 @@ fun Mine(navController: NavHostController) {
             Spacer(modifier = Modifier.height(50.dp))
             if (viewModel.user != null) {
                 Button(
-                    onClick = { viewModel.logout() },
+                    onClick = { viewModel.showDialog = true },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(44.dp)
@@ -162,6 +162,36 @@ fun Mine(navController: NavHostController) {
                     Text(text = "退出登录", fontSize = 15.sp)
                 }
             }
+        }
+        if (viewModel.showDialog) {
+            AlertDialog(
+                onDismissRequest = {},
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.showDialog = false
+                            viewModel.logout()
+                        }
+                    ) {
+                        Text("确认")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.showDialog = false
+                        }
+                    ) {
+                        Text("取消")
+                    }
+                },
+                title = {
+                    Text(text = "提示")
+                },
+                text = {
+                    Text(text = "确认退出登录？")
+                }
+            )
         }
     }
 }

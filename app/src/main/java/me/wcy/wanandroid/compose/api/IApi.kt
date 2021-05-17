@@ -40,6 +40,14 @@ interface IApi {
         @Field("password") password: String
     ): Response<User>
 
+    @FormUrlEncoded
+    @POST("user/register")
+    suspend fun register(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("repassword") repassword: String
+    ): Response<String>
+
     @GET("user/logout/json")
     suspend fun logout(): Response<String>
 

@@ -18,7 +18,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
 class CollectViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
-    val list by mutableStateOf(mutableListOf<Article>())
+    var list by mutableStateOf(listOf<Article>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var page = 0
@@ -34,10 +34,7 @@ class CollectViewModel : ViewModel() {
             val articleList = apiCall { Api.get().getCollectArticleList() }
             if (articleList.isSuccess()) {
                 pageState = LoadState.SUCCESS
-                list.apply {
-                    clear()
-                    addAll(articleList.data!!.datas.onEach { it.collect = true })
-                }
+                list = articleList.data!!.datas.onEach { it.collect = true }
             } else {
                 pageState = LoadState.FAIL
             }
@@ -50,10 +47,7 @@ class CollectViewModel : ViewModel() {
             refreshingState = true
             val articleList = apiCall { Api.get().getCollectArticleList() }
             if (articleList.isSuccess()) {
-                list.apply {
-                    clear()
-                    addAll(articleList.data!!.datas.onEach { it.collect = true })
-                }
+                list = articleList.data!!.datas.onEach { it.collect = true }
                 refreshingState = false
             } else {
                 refreshingState = false
@@ -65,10 +59,12 @@ class CollectViewModel : ViewModel() {
     fun onLoad() {
         viewModelScope.launch {
             loadState = true
-            val articleList = apiCall { Api.get().getSquareArticleList(page + 1) }
+            val articleList = apiCall { Api.get().getCollectArticleList(page + 1) }
             if (articleList.isSuccess()) {
                 page++
-                list.addAll(articleList.data!!.datas.onEach { it.collect = true })
+                list = list.toMutableList().apply {
+                    addAll(articleList.data!!.datas.onEach { it.collect = true })
+                }
                 loadState = false
             } else {
                 loadState = false

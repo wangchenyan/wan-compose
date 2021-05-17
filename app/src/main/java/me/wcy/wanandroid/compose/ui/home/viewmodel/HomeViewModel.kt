@@ -21,7 +21,7 @@ import me.wcy.wanandroid.compose.widget.Toaster
 class HomeViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
-    val list by mutableStateOf(mutableListOf<Any>())
+    var list by mutableStateOf(listOf<Any>())
     var refreshingState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var page = 0
@@ -42,8 +42,7 @@ class HomeViewModel : ViewModel() {
             val articleRes = articleDeffer.await()
             if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
                 pageState = LoadState.SUCCESS
-                list.apply {
-                    clear()
+                list = mutableListOf<Any>().apply {
                     add(bannerRes.data!!)
                     addAll(stickyRes.data!!.onEach {
                         it.tags.add(0, ArticleTag("置顶"))
@@ -67,8 +66,7 @@ class HomeViewModel : ViewModel() {
             val stickyRes = stickDeffer.await()
             val articleRes = articleDeffer.await()
             if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
-                list.apply {
-                    clear()
+                list = mutableListOf<Any>().apply {
                     add(bannerRes.data!!)
                     addAll(stickyRes.data!!.onEach {
                         it.tags.add(0, ArticleTag("置顶"))
@@ -89,7 +87,9 @@ class HomeViewModel : ViewModel() {
             val articleList = apiCall { Api.get().getHomeArticleList(page + 1) }
             if (articleList.isSuccess()) {
                 page++
-                list.addAll(articleList.data!!.datas)
+                list = list.toMutableList().apply {
+                    addAll(articleList.data!!.datas)
+                }
                 loadState = false
             } else {
                 loadState = false

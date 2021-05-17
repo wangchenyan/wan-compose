@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
-import me.wcy.wanandroid.compose.ui.wechat.model.WeChatTabViewModel
+import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatTabViewModel
 import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading
 import me.wcy.wanandroid.compose.widget.Pager

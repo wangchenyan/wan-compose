@@ -1,13 +1,11 @@
 package me.wcy.wanandroid.compose.ui.mine
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
@@ -15,21 +13,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import me.wcy.wanandroid.compose.theme.Colors
-import me.wcy.wanandroid.compose.ui.mine.viewmodel.LoginViewModel
+import me.wcy.wanandroid.compose.ui.mine.viewmodel.RegisterViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading
 import me.wcy.wanandroid.compose.widget.TitleBar
 
 @Composable
-fun Login(navController: NavHostController) {
-    val viewModel: LoginViewModel = viewModel()
+fun Register(navController: NavHostController) {
+    val viewModel: RegisterViewModel = viewModel()
     PageLoading(
         modifier = Modifier.background(Colors.background),
         showLoading = viewModel.showLoading
     ) {
         Column(Modifier.fillMaxSize()) {
-            TitleBar(title = "登录", onBack = {
+            TitleBar(title = "注册", onBack = {
                 navController.popBackStack()
             })
             Column(Modifier.fillMaxSize()) {
@@ -72,29 +69,35 @@ fun Login(navController: NavHostController) {
                     )
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = viewModel.repassword,
+                    onValueChange = { value ->
+                        viewModel.repassword = value
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = {
+                        Text(text = "请确认密码")
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    singleLine = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent
+                    )
+                )
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
                 Spacer(modifier = Modifier.height(50.dp))
                 Button(
-                    onClick = { viewModel.login(navController) },
+                    onClick = { viewModel.register(navController) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(44.dp)
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(percent = 50),
                 ) {
-                    Text(text = "登录", fontSize = 15.sp)
+                    Text(text = "注册", fontSize = 15.sp)
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = "没有账号？去注册",
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(horizontal = 16.dp)
-                        .clickable {
-                            navController.navigate("register")
-                        },
-                    color = Colors.text_h2,
-                    fontSize = 15.sp
-                )
             }
         }
     }

@@ -9,8 +9,10 @@ val Teal200 = Color(0xFF03DAC5)
 
 object Colors {
     val white = Color.White
+    val green = Color(0xFF4CAF50)
     val red = Color(0xFFF44336)
-    val main = Color(0xFF43A047)
+    val blue = Color(0xFF2196F3)
+    val main = green
     val background = Color(0xFFF4F4F4)
     val unselect = Color(0xFF424242)
     val titleBar = Color(0xFFFAFAFA)

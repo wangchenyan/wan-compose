@@ -11,12 +11,13 @@ import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.auth.AuthManager
 
 class MineViewModel : ViewModel() {
-    var showLoading by mutableStateOf(false)
     var user by mutableStateOf(AuthManager.user.value)
+    var showLoading by mutableStateOf(false)
+    var showDialog by mutableStateOf(false)
 
     init {
         AuthManager.user.observeForever {
-            user = it
+            user = it?.copy()
         }
     }
 
