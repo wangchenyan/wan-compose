@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import me.wcy.wanandroid.compose.R
 import me.wcy.wanandroid.compose.theme.Colors
 
@@ -48,10 +49,12 @@ fun TitleBar(
         }
         Text(
             text = title,
-            Modifier
+            modifier = Modifier
                 .align(alignment = Alignment.CenterVertically)
                 .padding(start = 16.dp, end = 16.dp)
                 .weight(1f),
+            color = Colors.text_h1,
+            fontSize = 17.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

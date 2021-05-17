@@ -36,7 +36,10 @@ fun CollectList(navController: NavHostController) {
                 loadState = viewModel.loadState,
                 onRefresh = { viewModel.onRefresh() },
                 onLoad = { viewModel.onLoad() }) {
-                LazyColumn(Modifier.fillMaxSize()) {
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Colors.white)) {
                     itemsIndexed(viewModel.list) { index, item ->
                         ArticleItem(navController, item) {
                             viewModel.uncollect(item)

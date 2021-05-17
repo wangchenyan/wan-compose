@@ -56,7 +56,11 @@ fun Home(navController: NavHostController) {
                 loadState = viewModel.loadState,
                 onRefresh = { viewModel.onRefresh() },
                 onLoad = { viewModel.onLoad() }) {
-                LazyColumn(Modifier.fillMaxSize()) {
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Colors.white)
+                ) {
                     itemsIndexed(viewModel.list) { index, item ->
                         if (item is List<*>) {
                             BannerItem(navController, item as List<HomeBannerData>)
@@ -94,7 +98,6 @@ fun ArticleItem(
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .background(Colors.white)
         .clickable {
             navController.navigate("web?url=${article.link}")
         }) {

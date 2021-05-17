@@ -12,8 +12,8 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -49,7 +49,7 @@ fun WeChat(navController: NavHostController) {
                         selectedTabIndex = viewModel.pagerState.currentPage,
                         modifier = Modifier
                             .fillMaxWidth(),
-                        backgroundColor = Color.Transparent,
+                        backgroundColor = Colors.titleBar,
                         indicator = { tabPositions ->
                             TabRowDefaults.Indicator(
                                 modifier = Modifier
@@ -67,11 +67,10 @@ fun WeChat(navController: NavHostController) {
                                 onClick = {
                                     viewModel.pagerState.currentPage = index
                                 }) {
-                                Text(text = weChatAuthor.name)
+                                Text(text = weChatAuthor.name, fontSize = 16.sp)
                             }
                         }
                     }
-                    Divider()
                     Pager(
                         state = viewModel.pagerState,
                         modifier = Modifier.fillMaxSize(),
@@ -99,7 +98,11 @@ fun WeChatTab(navController: NavHostController, scope: CoroutineScope, id: Long)
             SwipeToLoadLayout(
                 loadState = viewModel.loadState,
                 onLoad = { viewModel.loadArticleList() }) {
-                LazyColumn(Modifier.fillMaxSize()) {
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Colors.white)
+                ) {
                     itemsIndexed(viewModel.articleList) { index, item ->
                         ArticleItem(navController, item) {
                             viewModel.collect(item)

@@ -3,6 +3,8 @@ package me.wcy.wanandroid.compose.ui.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
@@ -79,6 +81,7 @@ fun Search(navController: NavHostController) {
                     .align(alignment = Alignment.CenterVertically)
                     .clickable {
                         if (viewModel.keyword.isNotEmpty()) {
+                            viewModel.addHistory(viewModel.keyword)
                             navController.navigate("search_result?keyword=${viewModel.keyword}")
                         } else {
                             Toaster.show("请输入关键字")
@@ -94,12 +97,17 @@ fun Search(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "热门搜索")
+            Text(
+                text = "热门搜索",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Colors.text_h1,
+                fontSize = 16.sp
+            )
             Spacer(modifier = Modifier.height(16.dp))
             FlowLayout(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 verticalSpacing = 8.dp,
                 horizontalSpacing = 8.dp,
             ) {
@@ -112,15 +120,61 @@ fun Search(navController: NavHostController) {
                             )
                             .clickable {
                                 viewModel.keyword = it.name
+                                viewModel.addHistory(viewModel.keyword)
                                 navController.navigate("search_result?keyword=${viewModel.keyword}")
                             }
                     ) {
                         Text(
                             text = it.name,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            color = Colors.text_h1,
                             fontSize = 14.sp,
                             maxLines = 1
                         )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "搜索历史",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Colors.text_h1,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                itemsIndexed(viewModel.history) { index, item ->
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            viewModel.keyword = item
+                            navController.navigate("search_result?keyword=${viewModel.keyword}")
+                        }) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 12.dp)
+                        ) {
+                            Text(
+                                text = item,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .align(Alignment.CenterVertically),
+                                color = Colors.text_h2,
+                                fontSize = 14.sp,
+                                maxLines = 1
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_close),
+                                contentDescription = "删除",
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .clickable {
+                                        viewModel.removeHistory(item)
+                                    },
+                                tint = Colors.text_h2
+                            )
+                        }
                     }
                 }
             }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import me.wcy.wanandroid.compose.theme.Colors
@@ -64,7 +65,7 @@ fun Login(navController: NavHostController) {
                         singleLine = true,
                     )
                 }
-                Divider()
+                Divider(thickness = 0.5.dp)
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(
                     modifier = Modifier
@@ -89,16 +90,16 @@ fun Login(navController: NavHostController) {
                         singleLine = true
                     )
                 }
-                Divider()
+                Divider(thickness = 0.5.dp)
                 Spacer(modifier = Modifier.height(50.dp))
                 Button(
                     onClick = { viewModel.login(navController) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(44.dp),
-                    shape = RoundedCornerShape(22.dp),
+                    shape = RoundedCornerShape(percent = 50),
                 ) {
-                    Text(text = "登录")
+                    Text(text = "登录", fontSize = 15.sp)
                 }
             }
         }

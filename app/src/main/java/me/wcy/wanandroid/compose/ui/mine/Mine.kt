@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
@@ -152,13 +153,13 @@ fun Mine(navController: NavHostController) {
                         .fillMaxWidth()
                         .height(44.dp)
                         .padding(horizontal = 16.dp),
-                    shape = RoundedCornerShape(22.dp),
+                    shape = RoundedCornerShape(percent = 50),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Colors.red,
                         contentColor = Color.White
                     )
                 ) {
-                    Text(text = "退出登录")
+                    Text(text = "退出登录", fontSize = 15.sp)
                 }
             }
         }
