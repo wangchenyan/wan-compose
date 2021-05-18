@@ -6,7 +6,7 @@ Jetpack Compose 版本的「玩 Android」
 
 - AndroidStudio: 
 
-![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/android-studio.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/android-studio.jpg)
 
 - Gradle: 7.0.0-alpha15
 - Kotlin: 1.4.30
@@ -18,3 +18,8 @@ Jetpack Compose 版本的「玩 Android」
 - 首页、搜索
 - 广场
 - 公众号
+
+## 截图
+![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/screenshot01.jpg)
+
+![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/screenshot02.jpg)
