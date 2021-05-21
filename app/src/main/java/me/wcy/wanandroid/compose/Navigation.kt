@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import me.wcy.wanandroid.compose.ui.Main
 import me.wcy.wanandroid.compose.ui.mine.CollectList
 import me.wcy.wanandroid.compose.ui.mine.Login
@@ -12,6 +13,7 @@ import me.wcy.wanandroid.compose.ui.search.Search
 import me.wcy.wanandroid.compose.ui.search.SearchResult
 import me.wcy.wanandroid.compose.ui.web.Web
 
+@ExperimentalPagerApi
 @Composable
 fun ComposeNavigation() {
     val navController = rememberNavController()

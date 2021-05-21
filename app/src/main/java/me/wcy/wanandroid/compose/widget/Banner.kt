@@ -1,25 +1,30 @@
 package me.wcy.wanandroid.compose.widget
 
+import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.delay
+import androidx.navigation.NavHostController
+import com.google.accompanist.coil.rememberCoilPainter
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.theme.Colors
 
@@ -33,40 +38,46 @@ data class BannerData(
     val jumpUrl: String
 )
 
-class BannerViewModel : ViewModel() {
-    var pagerState by mutableStateOf(PagerState())
-    private var count = 0
-
-    init {
-        viewModelScope.launch {
-            repeat(Int.MAX_VALUE) {
-                delay(3000)
-                if (count > 0) {
-                    pagerState.currentPage = (pagerState.currentPage + 1) % count
-                }
-            }
-        }
-    }
-
-    fun setCount(count: Int) {
-        this.count = count
-        pagerState.maxPage = count - 1
-    }
-}
-
+@SuppressLint("CoroutineCreationDuringComposition")
+@ExperimentalPagerApi
 @Composable
 fun Banner(
+    navController: NavHostController,
     modifier: Modifier,
     dataList: List<BannerData>
 ) {
-    val viewModel: BannerViewModel = viewModel()
-    viewModel.setCount(dataList.size)
-    Pager(state = viewModel.pagerState, modifier = modifier, offscreenLimit = dataList.size - 1) {
-        val bannerData = dataList[page]
-        Box(modifier = Modifier.fillMaxSize()) {
-            GlideImage(
-                bannerData.imageUrl,
-                Modifier.fillMaxSize()
+    val pagerState =
+        rememberPagerState(pageCount = dataList.size, initialOffscreenLimit = dataList.size - 1)
+    val handler = remember {
+        Handler(Looper.getMainLooper())
+    }
+    val scope = rememberCoroutineScope()
+    handler.removeCallbacksAndMessages(null)
+    handler.postDelayed(object : Runnable {
+        override fun run() {
+            scope.launch {
+                if (pagerState.pageCount > 0) {
+                    pagerState.animateScrollToPage((pagerState.currentPage + 1) % pagerState.pageCount)
+                }
+            }
+            handler.postDelayed(this, 3000)
+        }
+    }, 3000)
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier
+    ) {
+        val bannerData = dataList[currentPage]
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .clickable {
+                navController.navigate("web?url=${bannerData.jumpUrl}")
+            }) {
+            Image(
+                painter = rememberCoilPainter(bannerData.imageUrl),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
             Row(
                 modifier = Modifier
@@ -97,7 +108,7 @@ fun Banner(
                             .height(0.dp)
                     )
                     val color =
-                        if (i == viewModel.pagerState.currentPage) Colors.white else Color.LightGray
+                        if (i == pagerState.currentPage) Colors.white else Color.LightGray
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)

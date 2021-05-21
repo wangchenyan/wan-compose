@@ -3,31 +3,27 @@ package me.wcy.wanandroid.compose.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.ui.home.Home
 import me.wcy.wanandroid.compose.ui.mine.Mine
 import me.wcy.wanandroid.compose.ui.square.Square
 import me.wcy.wanandroid.compose.ui.wechat.WeChat
 import me.wcy.wanandroid.compose.widget.BottomTab
-import me.wcy.wanandroid.compose.widget.Pager
-import me.wcy.wanandroid.compose.widget.PagerState
 
-class MainViewModel : ViewModel() {
-    var pagerState by mutableStateOf(PagerState(maxPage = 3))
-}
-
+@ExperimentalPagerApi
 @Composable
 fun Main(navController: NavHostController) {
     Column(Modifier.fillMaxSize()) {
-        val mainViewModel: MainViewModel = viewModel()
-        Pager(mainViewModel.pagerState, Modifier.weight(1f)) {
-            when (page) {
+        val scope = rememberCoroutineScope()
+        val pagerState = rememberPagerState(pageCount = 4, initialOffscreenLimit = 3)
+        HorizontalPager(pagerState, Modifier.weight(1f)) {
+            when (currentPage) {
                 0 -> {
                     Home(navController)
                 }
@@ -42,8 +38,10 @@ fun Main(navController: NavHostController) {
                 }
             }
         }
-        BottomTab(mainViewModel.pagerState.currentPage) {
-            mainViewModel.pagerState.currentPage = it
+        BottomTab(pagerState.currentPage) {
+            scope.launch {
+                pagerState.scrollToPage(it)
+            }
         }
     }
 }

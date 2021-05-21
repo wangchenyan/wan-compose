@@ -19,11 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
+import com.google.accompanist.flowlayout.FlowRow
 import me.wcy.wanandroid.compose.R
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.search.viewmodel.SearchViewModel
-import me.wcy.wanandroid.compose.widget.FlowLayout
 import me.wcy.wanandroid.compose.widget.Toaster
 
 @Composable
@@ -106,10 +105,12 @@ fun Search(navController: NavHostController) {
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            FlowLayout(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalSpacing = 8.dp,
-                horizontalSpacing = 8.dp,
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                mainAxisSpacing = 8.dp,
+                crossAxisSpacing = 8.dp,
             ) {
                 viewModel.hotKeys.forEach {
                     Box(

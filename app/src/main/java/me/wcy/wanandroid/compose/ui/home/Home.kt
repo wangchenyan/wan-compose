@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
+import com.google.accompanist.pager.ExperimentalPagerApi
 import me.wcy.wanandroid.compose.R
 import me.wcy.wanandroid.compose.auth.AuthManager
 import me.wcy.wanandroid.compose.theme.Colors
@@ -32,6 +32,7 @@ import me.wcy.wanandroid.compose.widget.*
  * Created by wcy on 2021/3/31.
  */
 
+@ExperimentalPagerApi
 @Composable
 fun Home(navController: NavHostController) {
     val viewModel: HomeViewModel = viewModel()
@@ -51,7 +52,7 @@ fun Home(navController: NavHostController) {
             loadState = viewModel.pageState,
             showLoading = viewModel.showLoading,
             onReload = { viewModel.firstLoad() }) {
-            SwipeToRefreshAndLoadLayout(
+            SwipeRefreshAndLoadLayout(
                 refreshingState = viewModel.refreshingState,
                 loadState = viewModel.loadState,
                 onRefresh = { viewModel.onRefresh() },
@@ -77,12 +78,14 @@ fun Home(navController: NavHostController) {
     }
 }
 
+@ExperimentalPagerApi
 @Composable
 fun BannerItem(navController: NavHostController, list: List<HomeBannerData>) {
     val dataList = list.map {
         BannerData(it.title, it.imagePath, it.url)
     }
     Banner(
+        navController = navController,
         modifier = Modifier
             .fillMaxWidth()
             .height(220.dp),

@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.mine.viewmodel.LoginViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading

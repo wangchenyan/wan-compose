@@ -9,26 +9,30 @@ import me.wcy.wanandroid.compose.api.Api
 import me.wcy.wanandroid.compose.api.apiCall
 import me.wcy.wanandroid.compose.ui.home.model.Article
 import me.wcy.wanandroid.compose.ui.mine.viewmodel.CollectViewModel
+import me.wcy.wanandroid.compose.widget.LoadState
 import me.wcy.wanandroid.compose.widget.Toaster
 
 class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long) {
+    var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
     var articleList by mutableStateOf(listOf<Article>())
-    var refreshState by mutableStateOf(false)
     var loadState by mutableStateOf(false)
     private var page = 0
 
     init {
+        firstLoad()
+    }
+
+    fun firstLoad() {
         scope.launch {
-            refreshState = true
             page = 0
+            pageState = LoadState.LOADING
             val res = apiCall { Api.get().getWeChatArticleList(id) }
             if (res.isSuccess()) {
+                pageState = LoadState.SUCCESS
                 articleList = res.data!!.datas
-                refreshState = false
             } else {
-                refreshState = false
-                Toaster.show("加载失败")
+                pageState = LoadState.FAIL
             }
         }
     }

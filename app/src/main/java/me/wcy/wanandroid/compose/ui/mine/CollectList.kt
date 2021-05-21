@@ -16,7 +16,7 @@ import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
 import me.wcy.wanandroid.compose.ui.mine.viewmodel.CollectViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading
-import me.wcy.wanandroid.compose.widget.SwipeToRefreshAndLoadLayout
+import me.wcy.wanandroid.compose.widget.SwipeRefreshAndLoadLayout
 import me.wcy.wanandroid.compose.widget.TitleBar
 
 @Composable
@@ -31,7 +31,7 @@ fun CollectList(navController: NavHostController) {
         PageLoading(
             loadState = viewModel.pageState,
             onReload = { viewModel.firstLoad() }) {
-            SwipeToRefreshAndLoadLayout(
+            SwipeRefreshAndLoadLayout(
                 refreshingState = viewModel.refreshingState,
                 loadState = viewModel.loadState,
                 onRefresh = { viewModel.onRefresh() },

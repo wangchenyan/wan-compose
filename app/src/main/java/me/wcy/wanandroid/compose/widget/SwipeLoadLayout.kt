@@ -22,7 +22,7 @@ private val LoadDistance = 70.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SwipeToLoadLayout(
+fun SwipeLoadLayout(
     loadState: Boolean,
     onLoad: () -> Unit,
     content: @Composable () -> Unit

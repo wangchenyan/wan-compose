@@ -10,25 +10,30 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
 import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatTabViewModel
 import me.wcy.wanandroid.compose.ui.wechat.viewmodel.WeChatViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading
-import me.wcy.wanandroid.compose.widget.Pager
-import me.wcy.wanandroid.compose.widget.SwipeToLoadLayout
+import me.wcy.wanandroid.compose.widget.SwipeLoadLayout
 import me.wcy.wanandroid.compose.widget.TitleBar
 
 /**
  * Created by wcy on 2021/3/31.
  */
 
+@ExperimentalPagerApi
 @Composable
 fun WeChat(navController: NavHostController) {
     val viewModel: WeChatViewModel = viewModel()
@@ -42,16 +47,21 @@ fun WeChat(navController: NavHostController) {
             loadState = viewModel.pageState,
             onReload = { viewModel.getAuthorList() }) {
             if (viewModel.authorList.isNotEmpty()) {
+                val scope = rememberCoroutineScope()
+                val pagerState = rememberPagerState(
+                    pageCount = viewModel.authorList.size,
+                    initialOffscreenLimit = viewModel.authorList.size - 1
+                )
                 Column(Modifier.fillMaxSize()) {
                     ScrollableTabRow(
-                        selectedTabIndex = viewModel.pagerState.currentPage,
+                        selectedTabIndex = pagerState.currentPage,
                         modifier = Modifier
                             .fillMaxWidth(),
                         backgroundColor = Colors.titleBar,
                         indicator = { tabPositions ->
                             TabRowDefaults.Indicator(
                                 modifier = Modifier
-                                    .tabIndicatorOffset(tabPositions[viewModel.pagerState.currentPage])
+                                    .tabIndicatorOffset(tabPositions[pagerState.currentPage])
                                     .padding(start = 20.dp, end = 20.dp),
                                 color = Colors.main
                             )
@@ -61,23 +71,24 @@ fun WeChat(navController: NavHostController) {
                         viewModel.authorList.forEachIndexed { index, weChatAuthor ->
                             Tab(
                                 modifier = Modifier.padding(vertical = 10.dp),
-                                selected = (index == viewModel.pagerState.currentPage),
+                                selected = (index == pagerState.currentPage),
                                 onClick = {
-                                    viewModel.pagerState.currentPage = index
+                                    scope.launch {
+                                        pagerState.scrollToPage(index)
+                                    }
                                 }) {
                                 Text(text = weChatAuthor.name, fontSize = 16.sp)
                             }
                         }
                     }
-                    Pager(
-                        state = viewModel.pagerState,
+                    HorizontalPager(
+                        state = pagerState,
                         modifier = Modifier.fillMaxSize(),
-                        offscreenLimit = viewModel.authorList.size - 1
                     ) {
                         WeChatTab(
                             navController,
                             viewModel,
-                            viewModel.authorList[page].id
+                            viewModel.authorList[currentPage].id
                         )
                     }
                 }
@@ -94,8 +105,12 @@ fun WeChatTab(navController: NavHostController, viewModel: WeChatViewModel, id: 
         viewModel.tabViewModelMap.put(id, tabViewModel)
     }
     Column(Modifier.fillMaxSize()) {
-        PageLoading(showLoading = tabViewModel.showLoading) {
-            SwipeToLoadLayout(
+        PageLoading(
+            loadState = tabViewModel.pageState,
+            onReload = { tabViewModel.firstLoad() },
+            showLoading = tabViewModel.showLoading
+        ) {
+            SwipeLoadLayout(
                 loadState = tabViewModel.loadState,
                 onLoad = { tabViewModel.loadArticleList() }) {
                 LazyColumn(

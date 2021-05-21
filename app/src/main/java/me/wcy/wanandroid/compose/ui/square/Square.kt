@@ -17,7 +17,7 @@ import me.wcy.wanandroid.compose.theme.Colors
 import me.wcy.wanandroid.compose.ui.home.ArticleItem
 import me.wcy.wanandroid.compose.ui.square.viewmodel.SquareViewModel
 import me.wcy.wanandroid.compose.widget.PageLoading
-import me.wcy.wanandroid.compose.widget.SwipeToRefreshAndLoadLayout
+import me.wcy.wanandroid.compose.widget.SwipeRefreshAndLoadLayout
 import me.wcy.wanandroid.compose.widget.TitleBar
 import me.wcy.wanandroid.compose.widget.Toaster
 
@@ -45,7 +45,7 @@ fun Square(navController: NavHostController) {
             onReload = { viewModel.firstLoad() },
             showLoading = viewModel.showLoading
         ) {
-            SwipeToRefreshAndLoadLayout(
+            SwipeRefreshAndLoadLayout(
                 refreshingState = viewModel.refreshingState,
                 loadState = viewModel.loadState,
                 onRefresh = { viewModel.onRefresh() },
