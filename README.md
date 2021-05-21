@@ -8,9 +8,9 @@ Jetpack Compose 版本的「玩 Android」
 
 ![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/android-studio.jpg)
 
-- Gradle: 7.0.0-alpha15
+- Gradle: 7.0.0-beta02
 - Kotlin: 1.4.30
-- Compose: 1.0.0-beta06
+- Compose: 1.0.0-beta07
 
 ## 功能
 - 登录、注册
