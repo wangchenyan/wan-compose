@@ -3,14 +3,7 @@
 Jetpack Compose 版本的「玩 Android」
 
 ## 环境
-
-- AndroidStudio: 
-
-![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/android-studio.jpg)
-
-- Gradle: 7.0.0-beta02
-- Kotlin: 1.4.30
-- Compose: 1.0.0-beta07
+- AndroidStudio: Arctic Fox | 2020.3.1
 
 ## 功能
 - 登录、注册
