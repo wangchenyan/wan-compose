@@ -64,7 +64,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha06")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha06")
     implementation("com.google.accompanist:accompanist-pager:0.10.0")
     implementation("com.google.accompanist:accompanist-coil:0.10.0")

@@ -2,7 +2,7 @@ package me.wcy.wanandroid.compose.storage
 
 import android.content.Context
 import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.createDataStore
+import androidx.datastore.preferences.preferencesDataStoreFile
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -13,7 +13,11 @@ import java.io.IOException
  * Created by wcy on 2021/2/25.
  */
 class PreferencesDataStore(context: Context, name: String) {
-    private val ds = context.createDataStore(name)
+    private val ds by lazy {
+        PreferenceDataStoreFactory.create {
+            context.applicationContext.preferencesDataStoreFile(name)
+        }
+    }
 
     suspend fun <T> remove(key: Preferences.Key<T>) =
         ds.edit { it.remove(key) }
