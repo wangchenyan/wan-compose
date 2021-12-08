@@ -22,8 +22,8 @@ fun Main(navController: NavHostController) {
     Column(Modifier.fillMaxSize()) {
         val scope = rememberCoroutineScope()
         val pagerState = rememberPagerState(pageCount = 4, initialOffscreenLimit = 3)
-        HorizontalPager(pagerState, Modifier.weight(1f)) {
-            when (currentPage) {
+        HorizontalPager(pagerState, Modifier.weight(1f)) { page ->
+            when (page) {
                 0 -> {
                     Home(navController)
                 }
