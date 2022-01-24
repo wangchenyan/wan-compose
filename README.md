@@ -15,7 +15,7 @@ Jetpack Compose 版本的「玩 Android」
 ## 下载体验
 ![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/qrcode.png)
 
-https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/app.apk
+https://github.com/wangchenyan/wanandroid-compose/releases
 
 ## 截图
 ![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/screenshot01.jpg)
