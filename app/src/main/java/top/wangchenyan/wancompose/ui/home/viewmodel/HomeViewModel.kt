@@ -5,10 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.home.model.ArticleTag
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
@@ -22,8 +23,12 @@ class HomeViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
     var list by mutableStateOf(listOf<Any>())
-    var refreshingState by mutableStateOf(false)
-    var loadState by mutableStateOf(false)
+    var refreshState by mutableStateOf(
+        UltraSwipeRefreshState(
+            isRefreshing = false,
+            isLoading = false
+        )
+    )
     private var page = 0
 
     init {
@@ -40,7 +45,7 @@ class HomeViewModel : ViewModel() {
             val bannerRes = bannerDeffer.await()
             val stickyRes = stickDeffer.await()
             val articleRes = articleDeffer.await()
-            if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
+            if (bannerRes.isSuccessWithData() && articleRes.isSuccessWithData() && stickyRes.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
                 list = mutableListOf<Any>().apply {
                     add(bannerRes.data!!)
@@ -58,14 +63,14 @@ class HomeViewModel : ViewModel() {
     fun onRefresh() {
         viewModelScope.launch {
             page = 0
-            refreshingState = true
+            refreshState.isRefreshing = true
             val bannerDeffer = async { apiCall { Api.get().getHomeBanner() } }
             val stickDeffer = async { apiCall { Api.get().getStickyArticle() } }
             val articleDeffer = async { apiCall { Api.get().getHomeArticleList() } }
             val bannerRes = bannerDeffer.await()
             val stickyRes = stickDeffer.await()
             val articleRes = articleDeffer.await()
-            if (bannerRes.isSuccess() && articleRes.isSuccess() && stickyRes.isSuccess()) {
+            if (bannerRes.isSuccessWithData() && articleRes.isSuccessWithData() && stickyRes.isSuccessWithData()) {
                 list = mutableListOf<Any>().apply {
                     add(bannerRes.data!!)
                     addAll(stickyRes.data!!.onEach {
@@ -73,9 +78,9 @@ class HomeViewModel : ViewModel() {
                     })
                     addAll(articleRes.data!!.datas)
                 }
-                refreshingState = false
+                refreshState.isRefreshing = false
             } else {
-                refreshingState = false
+                refreshState.isRefreshing = false
                 Toaster.show("加载失败")
             }
         }
@@ -83,16 +88,16 @@ class HomeViewModel : ViewModel() {
 
     fun onLoad() {
         viewModelScope.launch {
-            loadState = true
+            refreshState.isLoading = true
             val articleList = apiCall { Api.get().getHomeArticleList(page + 1) }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 page++
                 list = list.toMutableList().apply {
                     addAll(articleList.data!!.datas)
                 }
-                loadState = false
+                refreshState.isLoading = false
             } else {
-                loadState = false
+                refreshState.isLoading = false
                 Toaster.show("加载失败")
             }
         }

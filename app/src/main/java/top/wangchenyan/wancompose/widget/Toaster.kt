@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import top.wangchenyan.wancompose.WanApplication
+import top.wangchenyan.android.common.CommonApp
 
 @SuppressLint("StaticFieldLeak")
 object Toaster {
-    private val context = WanApplication.context
+    private val context = CommonApp.app
     private val handler = Handler(Looper.getMainLooper())
 
     fun show(resId: Int) {

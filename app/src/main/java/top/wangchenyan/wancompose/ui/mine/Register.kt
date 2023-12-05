@@ -5,6 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +24,7 @@ import top.wangchenyan.wancompose.ui.mine.viewmodel.RegisterViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
 import top.wangchenyan.wancompose.widget.TitleBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Register(navController: NavHostController) {
     val viewModel: RegisterViewModel = viewModel()

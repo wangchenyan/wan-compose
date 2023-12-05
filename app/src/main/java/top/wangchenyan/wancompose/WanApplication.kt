@@ -1,23 +1,28 @@
 package top.wangchenyan.wancompose
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import me.wcy.mockhttp.MockHttp
 import me.wcy.mockhttp.MockHttpOptions
+import top.wangchenyan.android.common.CommonApp
 import top.wangchenyan.wancompose.auth.AuthManager
 
 /**
  * Created by wcy on 2021/4/1.
  */
 class WanApplication : Application() {
-    companion object {
-        lateinit var context: Context
-    }
 
     override fun onCreate() {
         super.onCreate()
-        context = this
+        CommonApp.init {
+            test = true
+            apiConfig({}) {
+                codeJsonName = "errorCode"
+                msgJsonName = "errorMsg"
+                dataJsonName = "data"
+                successCode = 0
+            }
+        }
         AuthManager.init()
         val options = MockHttpOptions.Builder()
             .setMockServerPort(3000)

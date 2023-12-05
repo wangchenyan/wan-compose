@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.auth.AuthManager
 import top.wangchenyan.wancompose.widget.Toaster
 
@@ -30,7 +30,7 @@ class LoginViewModel : ViewModel() {
             showLoading = true
             val loginRes = apiCall { Api.get().login(username, password) }
             showLoading = false
-            if (loginRes.isSuccess()) {
+            if (loginRes.isSuccessWithData()) {
                 AuthManager.onLogin(loginRes.data!!)
                 navController.popBackStack()
                 Toaster.show("登录成功")

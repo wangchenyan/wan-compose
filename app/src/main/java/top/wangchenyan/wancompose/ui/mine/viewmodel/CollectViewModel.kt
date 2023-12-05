@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.widget.LoadState
 import top.wangchenyan.wancompose.widget.Toaster
@@ -19,8 +20,12 @@ class CollectViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
     var list by mutableStateOf(listOf<Article>())
-    var refreshingState by mutableStateOf(false)
-    var loadState by mutableStateOf(false)
+    var refreshState by mutableStateOf(
+        UltraSwipeRefreshState(
+            isRefreshing = false,
+            isLoading = false
+        )
+    )
     private var page = 0
 
     init {
@@ -32,7 +37,7 @@ class CollectViewModel : ViewModel() {
             page = 0
             pageState = LoadState.LOADING
             val articleList = apiCall { Api.get().getCollectArticleList() }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
                 list = articleList.data!!.datas.onEach { it.collect = true }
             } else {
@@ -44,13 +49,13 @@ class CollectViewModel : ViewModel() {
     fun onRefresh() {
         viewModelScope.launch {
             page = 0
-            refreshingState = true
+            refreshState.isRefreshing = true
             val articleList = apiCall { Api.get().getCollectArticleList() }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 list = articleList.data!!.datas.onEach { it.collect = true }
-                refreshingState = false
+                refreshState.isRefreshing = false
             } else {
-                refreshingState = false
+                refreshState.isRefreshing = false
                 Toaster.show("加载失败")
             }
         }
@@ -58,16 +63,16 @@ class CollectViewModel : ViewModel() {
 
     fun onLoad() {
         viewModelScope.launch {
-            loadState = true
+            refreshState.isLoading = true
             val articleList = apiCall { Api.get().getCollectArticleList(page + 1) }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 page++
                 list = list.toMutableList().apply {
                     addAll(articleList.data!!.datas.onEach { it.collect = true })
                 }
-                loadState = false
+                refreshState.isLoading = false
             } else {
-                loadState = false
+                refreshState.isLoading = false
                 Toaster.show("加载失败")
             }
         }
@@ -92,7 +97,7 @@ class CollectViewModel : ViewModel() {
             val id = getId.invoke(article)
             if (article.collect) {
                 val res = apiCall { Api.get().uncollect(id) }
-                if (res.isSuccessIgnoreData()) {
+                if (res.isSuccess()) {
                     article.collect = false
                     return true
                 } else {
@@ -100,7 +105,7 @@ class CollectViewModel : ViewModel() {
                 }
             } else {
                 val res = apiCall { Api.get().collect(id) }
-                if (res.isSuccessIgnoreData()) {
+                if (res.isSuccess()) {
                     article.collect = true
                     return true
                 } else {

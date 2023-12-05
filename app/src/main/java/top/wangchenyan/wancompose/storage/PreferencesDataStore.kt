@@ -6,7 +6,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import top.wangchenyan.wancompose.utils.GsonUtils
+import top.wangchenyan.android.common.utils.GsonUtils
 import java.io.IOException
 
 /**
@@ -60,7 +60,7 @@ class PreferencesDataStore(context: Context, name: String) {
     suspend inline fun <reified T> getModel(key: Preferences.Key<String>): T? {
         val json = get(key)
         if (json.isNotEmpty()) {
-            return GsonUtils.fromJson(json)
+            return GsonUtils.fromJson(json, T::class.java)
         }
         return null
     }
@@ -69,7 +69,7 @@ class PreferencesDataStore(context: Context, name: String) {
         if (t == null) {
             remove(key)
         } else {
-            put(key, GsonUtils.toJson(t))
+            put(key, GsonUtils.toJson(t) ?: "")
         }
     }
 

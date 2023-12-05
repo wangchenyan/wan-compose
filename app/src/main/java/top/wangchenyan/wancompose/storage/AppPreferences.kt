@@ -1,14 +1,14 @@
 package top.wangchenyan.wancompose.storage
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import top.wangchenyan.wancompose.WanApplication
+import top.wangchenyan.android.common.CommonApp
 import top.wangchenyan.wancompose.auth.User
 
 object AppPreferences {
     private val KEY_USER = stringPreferencesKey("user")
 
     private val dataStore by lazy {
-        PreferencesDataStore(WanApplication.context, WanApplication.context.packageName + ".app")
+        PreferencesDataStore(CommonApp.app, CommonApp.app.packageName + ".app")
     }
 
     suspend fun getUser(): User? {

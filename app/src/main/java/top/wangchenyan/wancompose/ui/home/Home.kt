@@ -16,9 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.king.ultraswiperefresh.NestedScrollMode
+import com.king.ultraswiperefresh.UltraSwipeRefresh
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.auth.AuthManager
 import top.wangchenyan.wancompose.theme.Colors
@@ -38,7 +40,6 @@ import top.wangchenyan.wancompose.ui.home.viewmodel.HomeViewModel
 import top.wangchenyan.wancompose.widget.Banner
 import top.wangchenyan.wancompose.widget.BannerData
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.SwipeRefreshAndLoadLayout
 import top.wangchenyan.wancompose.widget.TitleBar
 
 /**
@@ -65,11 +66,13 @@ fun Home(navController: NavHostController) {
             loadState = viewModel.pageState,
             showLoading = viewModel.showLoading,
             onReload = { viewModel.firstLoad() }) {
-            SwipeRefreshAndLoadLayout(
-                refreshingState = viewModel.refreshingState,
-                loadState = viewModel.loadState,
+            UltraSwipeRefresh(
+                state = viewModel.refreshState,
                 onRefresh = { viewModel.onRefresh() },
-                onLoad = { viewModel.onLoad() }) {
+                onLoadMore = { viewModel.onLoad() },
+                headerScrollMode = NestedScrollMode.FixedContent,
+                footerScrollMode = NestedScrollMode.FixedContent,
+            ) {
                 LazyColumn(
                     Modifier
                         .fillMaxSize()

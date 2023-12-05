@@ -7,8 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.ui.wechat.model.WeChatAuthor
 import top.wangchenyan.wancompose.widget.LoadState
 
@@ -25,7 +25,7 @@ class WeChatViewModel : ViewModel() {
         viewModelScope.launch {
             pageState = LoadState.LOADING
             val authorListRes = apiCall { Api.get().getWeChatAuthorList() }
-            if (authorListRes.isSuccess()) {
+            if (authorListRes.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
                 authorList = authorListRes.data!!
             } else {

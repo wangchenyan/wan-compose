@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.widget.Toaster
 
 class RegisterViewModel : ViewModel() {
@@ -34,7 +34,7 @@ class RegisterViewModel : ViewModel() {
             showLoading = true
             val registerRes = apiCall { Api.get().register(username, password, repassword) }
             showLoading = false
-            if (registerRes.isSuccessIgnoreData()) {
+            if (registerRes.isSuccess()) {
                 navController.popBackStack()
                 Toaster.show("注册成功")
             } else {

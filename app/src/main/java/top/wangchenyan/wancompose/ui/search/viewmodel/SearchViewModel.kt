@@ -6,10 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
-import top.wangchenyan.wancompose.storage.HistoryPreferences
 import me.wcy.wanandroid.compose.ui.search.HotKey
+import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.wancompose.api.Api
+import top.wangchenyan.wancompose.storage.HistoryPreferences
 
 class SearchViewModel : ViewModel() {
     var keyword by mutableStateOf("")
@@ -24,7 +24,7 @@ class SearchViewModel : ViewModel() {
     private fun getHotKey() {
         viewModelScope.launch {
             val hotKeyRes = apiCall { Api.get().searchHotKey() }
-            if (hotKeyRes.isSuccess()) {
+            if (hotKeyRes.isSuccessWithData()) {
                 hotKeys = hotKeyRes.data!!
             }
         }

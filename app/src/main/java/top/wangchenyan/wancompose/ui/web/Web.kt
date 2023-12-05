@@ -7,10 +7,18 @@ import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.SslErrorHandler
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +35,8 @@ fun Web(navController: NavHostController, url: String) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White)) {
+            .background(Color.White)
+    ) {
         TitleBar(title = viewModel.title, onBack = {
             navController.popBackStack()
         })
@@ -41,8 +50,6 @@ fun Web(navController: NavHostController, url: String) {
                     settings.apply {
                         domStorageEnabled = true
                         databaseEnabled = true
-                        setAppCacheEnabled(true)
-                        setAppCachePath(context.cacheDir.absolutePath)
                         allowFileAccess = false
                         savePassword = false
                         javaScriptEnabled = true
@@ -114,7 +121,7 @@ fun Web(navController: NavHostController, url: String) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(2.dp),
-                    backgroundColor = Color.Transparent
+                    color = Color.Transparent
                 )
             }
         }

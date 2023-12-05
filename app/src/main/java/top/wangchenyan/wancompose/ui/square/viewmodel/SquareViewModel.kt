@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.launch
+import top.wangchenyan.android.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
-import top.wangchenyan.wancompose.api.apiCall
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
 import top.wangchenyan.wancompose.widget.LoadState
@@ -20,8 +21,12 @@ class SquareViewModel : ViewModel() {
     var pageState by mutableStateOf(LoadState.LOADING)
     var showLoading by mutableStateOf(false)
     var list by mutableStateOf(listOf<Article>())
-    var refreshingState by mutableStateOf(false)
-    var loadState by mutableStateOf(false)
+    var refreshState by mutableStateOf(
+        UltraSwipeRefreshState(
+            isRefreshing = false,
+            isLoading = false
+        )
+    )
     private var page = 0
 
     init {
@@ -33,7 +38,7 @@ class SquareViewModel : ViewModel() {
             page = 0
             pageState = LoadState.LOADING
             val articleList = apiCall { Api.get().getSquareArticleList() }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
                 list = articleList.data!!.datas
             } else {
@@ -45,13 +50,13 @@ class SquareViewModel : ViewModel() {
     fun onRefresh() {
         viewModelScope.launch {
             page = 0
-            refreshingState = true
+            refreshState.isRefreshing = true
             val articleList = apiCall { Api.get().getSquareArticleList() }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 list = articleList.data!!.datas
-                refreshingState = false
+                refreshState.isRefreshing = false
             } else {
-                refreshingState = false
+                refreshState.isRefreshing = false
                 Toaster.show("加载失败")
             }
         }
@@ -59,16 +64,16 @@ class SquareViewModel : ViewModel() {
 
     fun onLoad() {
         viewModelScope.launch {
-            loadState = true
+            refreshState.isLoading = true
             val articleList = apiCall { Api.get().getSquareArticleList(page + 1) }
-            if (articleList.isSuccess()) {
+            if (articleList.isSuccessWithData()) {
                 page++
                 list = list.toMutableList().apply {
                     addAll(articleList.data!!.datas)
                 }
-                loadState = false
+                refreshState.isLoading = false
             } else {
-                loadState = false
+                refreshState.isLoading = false
                 Toaster.show("加载失败")
             }
         }

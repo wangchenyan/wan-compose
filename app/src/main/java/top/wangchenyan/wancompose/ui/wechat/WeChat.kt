@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -20,13 +24,14 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.king.ultraswiperefresh.NestedScrollMode
+import com.king.ultraswiperefresh.UltraSwipeRefresh
 import kotlinx.coroutines.launch
 import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.wechat.viewmodel.WeChatTabViewModel
 import top.wangchenyan.wancompose.ui.wechat.viewmodel.WeChatViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.SwipeLoadLayout
 import top.wangchenyan.wancompose.widget.TitleBar
 
 /**
@@ -57,7 +62,7 @@ fun WeChat(navController: NavHostController) {
                         selectedTabIndex = pagerState.currentPage,
                         modifier = Modifier
                             .fillMaxWidth(),
-                        backgroundColor = Colors.titleBar,
+                        containerColor = Colors.titleBar,
                         indicator = { tabPositions ->
                             TabRowDefaults.Indicator(
                                 modifier = Modifier
@@ -110,9 +115,15 @@ fun WeChatTab(navController: NavHostController, viewModel: WeChatViewModel, id: 
             onReload = { tabViewModel.firstLoad() },
             showLoading = tabViewModel.showLoading
         ) {
-            SwipeLoadLayout(
-                loadState = tabViewModel.loadState,
-                onLoad = { tabViewModel.loadArticleList() }) {
+            UltraSwipeRefresh(
+                state = tabViewModel.refreshState,
+                refreshEnabled = false,
+                loadMoreEnabled = true,
+                onRefresh = {},
+                onLoadMore = { tabViewModel.loadArticleList() },
+                headerScrollMode = NestedScrollMode.FixedContent,
+                footerScrollMode = NestedScrollMode.FixedContent,
+            ) {
                 LazyColumn(
                     Modifier
                         .fillMaxSize()
