@@ -8,7 +8,7 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "me.wcy.wanandroid.compose"
+        applicationId = "top.wangchenyan.wancompose"
         minSdk = 21
         targetSdk = 30
         versionCode = 1

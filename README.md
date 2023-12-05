@@ -1,4 +1,4 @@
-# wanandroid-compose
+# wan-compose
 
 Jetpack Compose 版本的「玩 Android」
 
@@ -13,11 +13,11 @@ Jetpack Compose 版本的「玩 Android」
 - 公众号
 
 ## 下载体验
-![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/qrcode.png)
+![](https://raw.githubusercontent.com/wangchenyan/wan-compose/master/art/qrcode.png)
 
-https://github.com/wangchenyan/wanandroid-compose/releases
+https://github.com/wangchenyan/wan-compose/releases
 
 ## 截图
-![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/screenshot01.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/wan-compose/master/art/screenshot01.jpg)
 
-![](https://raw.githubusercontent.com/wangchenyan/wanandroid-compose/master/art/screenshot02.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/wan-compose/master/art/screenshot02.jpg)
