@@ -19,7 +19,7 @@ import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.square.viewmodel.SquareViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 import top.wangchenyan.wancompose.widget.Toaster
 
 /**
@@ -34,10 +34,10 @@ fun Square(navController: NavHostController) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(
+        TitleLayout(
             title = "广场",
-            icon = R.drawable.ic_share,
-            onIconClick = {
+            menuIcon = R.drawable.ic_share,
+            onMenuClick = {
                 Toaster.show("分享")
             }
         )

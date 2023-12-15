@@ -32,7 +32,7 @@ import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.wechat.viewmodel.WeChatTabViewModel
 import top.wangchenyan.wancompose.ui.wechat.viewmodel.WeChatViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 /**
  * Created by wcy on 2021/3/31.
@@ -47,7 +47,7 @@ fun WeChat(navController: NavHostController) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(title = "公众号")
+        TitleLayout(title = "公众号")
         PageLoading(
             loadState = viewModel.pageState,
             onReload = { viewModel.getAuthorList() }) {

@@ -25,11 +25,11 @@ import top.wangchenyan.wancompose.theme.Colors
  */
 
 @Composable
-fun TitleBar(
+fun TitleLayout(
     title: String,
     onBack: (() -> Unit)? = null,
-    @DrawableRes icon: Int? = null,
-    onIconClick: (() -> Unit)? = null,
+    @DrawableRes menuIcon: Int? = null,
+    onMenuClick: (() -> Unit)? = null,
 ) {
     Row(
         Modifier
@@ -62,16 +62,16 @@ fun TitleBar(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        if (icon != null) {
+        if (menuIcon != null) {
             Icon(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterVertically)
                     .clickable {
-                        onIconClick?.invoke()
+                        onMenuClick?.invoke()
                     }
                     .size(48.dp)
                     .padding(14.dp),
-                painter = painterResource(id = icon),
+                painter = painterResource(id = menuIcon),
                 contentDescription = "",
                 tint = Colors.text_h1
             )

@@ -18,7 +18,7 @@ import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.search.viewmodel.SearchResultViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 @Composable
 fun SearchResult(navController: NavHostController, keyword: String) {
@@ -29,7 +29,7 @@ fun SearchResult(navController: NavHostController, keyword: String) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(title = keyword, onBack = {
+        TitleLayout(title = keyword, onBack = {
             navController.popBackStack()
         })
         PageLoading(

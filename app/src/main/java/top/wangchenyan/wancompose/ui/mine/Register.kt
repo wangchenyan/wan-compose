@@ -22,7 +22,7 @@ import androidx.navigation.NavHostController
 import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.mine.viewmodel.RegisterViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +33,7 @@ fun Register(navController: NavHostController) {
         showLoading = viewModel.showLoading
     ) {
         Column(Modifier.fillMaxSize()) {
-            TitleBar(title = "注册", onBack = {
+            TitleLayout(title = "注册", onBack = {
                 navController.popBackStack()
             })
             Column(Modifier.fillMaxSize()) {

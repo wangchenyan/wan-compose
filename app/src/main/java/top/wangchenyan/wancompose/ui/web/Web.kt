@@ -27,7 +27,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import top.wangchenyan.wancompose.ui.web.viewmodel.WebViewModel
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 @Composable
 fun Web(navController: NavHostController, url: String) {
@@ -37,7 +37,7 @@ fun Web(navController: NavHostController, url: String) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TitleBar(title = viewModel.title, onBack = {
+        TitleLayout(title = viewModel.title, onBack = {
             navController.popBackStack()
         })
         Box(Modifier.fillMaxSize()) {

@@ -40,7 +40,7 @@ import top.wangchenyan.wancompose.ui.home.viewmodel.HomeViewModel
 import top.wangchenyan.wancompose.widget.Banner
 import top.wangchenyan.wancompose.widget.BannerData
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 /**
  * Created by wcy on 2021/3/31.
@@ -55,10 +55,10 @@ fun Home(navController: NavHostController) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(
+        TitleLayout(
             title = "首页",
-            icon = R.drawable.ic_search,
-            onIconClick = {
+            menuIcon = R.drawable.ic_search,
+            onMenuClick = {
                 navController.navigate("search")
             }
         )

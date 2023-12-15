@@ -18,7 +18,7 @@ import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
-import top.wangchenyan.wancompose.widget.TitleBar
+import top.wangchenyan.wancompose.widget.TitleLayout
 
 @Composable
 fun CollectList(navController: NavHostController) {
@@ -28,7 +28,7 @@ fun CollectList(navController: NavHostController) {
             .fillMaxSize()
             .background(Colors.background)
     ) {
-        TitleBar(title = "我的收藏", onBack = { navController.popBackStack() })
+        TitleLayout(title = "我的收藏", onBack = { navController.popBackStack() })
         PageLoading(
             loadState = viewModel.pageState,
             onReload = { viewModel.firstLoad() }) {
