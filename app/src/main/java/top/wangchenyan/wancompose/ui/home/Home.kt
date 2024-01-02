@@ -1,5 +1,8 @@
 package top.wangchenyan.wancompose.ui.home
 
+import android.text.TextUtils
+import android.util.TypedValue
+import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,9 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -163,15 +166,25 @@ fun ArticleItem(
                     12.sp
                 )
             }
-            Text(
-                article.title,
-                Modifier
+            Spacer(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 4.dp),
-                Colors.text_h1,
-                15.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                    .height(4.dp)
+            )
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                factory = { context ->
+                    TextView(context).apply {
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                        setTextColor(Colors.text_h1_int.toInt())
+                        maxLines = 2
+                        ellipsize = TextUtils.TruncateAt.END
+                    }
+                },
+                update = {
+                    it.text = article.getSpannableTitle()
+                }
             )
             Row(
                 modifier = Modifier

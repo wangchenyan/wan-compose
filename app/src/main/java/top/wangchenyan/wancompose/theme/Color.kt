@@ -17,6 +17,7 @@ object Colors {
     val unselect = Color(0xFF424242)
     val titleBar = Color(0xFFFAFAFA)
     val bottomBar = Color(0xFFFAFAFA)
-    val text_h1 = Color(0xFF212121)
+    const val text_h1_int = 0xFF212121
+    val text_h1 = Color(text_h1_int)
     val text_h2 = Color(0xFF757575)
 }

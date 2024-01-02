@@ -50,8 +50,18 @@ data class Article(
     @SerializedName("zan") val zan: Int = 0,
     @SerializedName("originId") val originId: Long = 0
 ) {
+    private var spannableTitle: CharSequence? = null
+
     fun getAuthor(): String {
         return if (author.isNotEmpty()) author else shareUser
+    }
+
+    fun getSpannableTitle(): CharSequence {
+        return spannableTitle ?: title
+    }
+
+    fun setSpannableTitle(title: CharSequence?) {
+        spannableTitle = title
     }
 }
 

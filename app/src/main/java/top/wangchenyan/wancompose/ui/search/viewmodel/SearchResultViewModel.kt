@@ -3,6 +3,7 @@ package top.wangchenyan.wancompose.ui.search.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
@@ -41,8 +42,8 @@ class SearchResultViewModel : ViewModel() {
             val articleList = apiCall { Api.get().search(page, keyword) }
             if (articleList.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
-                if (articleList.data!!.datas.isNotEmpty()) {
-                    list = articleList.data!!.datas
+                if (articleList.getDataOrThrow().datas.isNotEmpty()) {
+                    list = articleList.getDataOrThrow().datas.onEach { it.setSpannableTitle() }
                 } else {
                     pageState = LoadState.EMPTY
                 }
@@ -58,7 +59,7 @@ class SearchResultViewModel : ViewModel() {
             refreshState.isRefreshing = true
             val articleList = apiCall { Api.get().search(page, keyword) }
             if (articleList.isSuccessWithData()) {
-                list = articleList.data!!.datas
+                list = articleList.getDataOrThrow().datas.onEach { it.setSpannableTitle() }
                 refreshState.isRefreshing = false
             } else {
                 refreshState.isRefreshing = false
@@ -74,7 +75,7 @@ class SearchResultViewModel : ViewModel() {
             if (articleList.isSuccessWithData()) {
                 page++
                 list = list.toMutableList().apply {
-                    addAll(articleList.data!!.datas)
+                    addAll(articleList.getDataOrThrow().datas.onEach { it.setSpannableTitle() })
                 }
                 refreshState.isLoading = false
             } else {
@@ -90,5 +91,20 @@ class SearchResultViewModel : ViewModel() {
             CollectViewModel.collect(article)
             showLoading = false
         }
+    }
+
+    private fun Article.setSpannableTitle() {
+        val htmlTitle = this.title.replace(Regex("<em\\s.+?>(\\w+)</em>")) { matchResult ->
+            val title = matchResult.groupValues.getOrElse(1) {
+                matchResult.groupValues.firstOrNull() ?: ""
+            }
+            "<strong>${title}</strong>"
+        }
+        this.setSpannableTitle(
+            HtmlCompat.fromHtml(
+                htmlTitle,
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+        )
     }
 }
