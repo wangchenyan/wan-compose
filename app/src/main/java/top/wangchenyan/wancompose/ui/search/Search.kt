@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.flowlayout.FlowRow
+import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.search.viewmodel.SearchViewModel
-import top.wangchenyan.wancompose.widget.Toaster
 
 @Composable
 fun Search(navController: NavHostController) {
@@ -91,7 +91,7 @@ fun Search(navController: NavHostController) {
                             viewModel.addHistory(viewModel.keyword)
                             navController.navigate("search_result?keyword=${viewModel.keyword}")
                         } else {
-                            Toaster.show("请输入关键字")
+                            ToastUtils.show("请输入关键字")
                         }
                     }
                     .size(48.dp)

@@ -1,7 +1,7 @@
 package top.wangchenyan.wancompose.storage
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import top.wangchenyan.android.common.CommonApp
+import top.wangchenyan.common.CommonApp
 
 object HistoryPreferences {
     private val KEY_HISTORY = stringPreferencesKey("history")

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.auth.AuthManager
 

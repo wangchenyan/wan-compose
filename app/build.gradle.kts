@@ -70,6 +70,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-flowlayout:0.10.0")
     implementation("com.github.wangchenyan.mock-http:mock-http:1.7")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
-    implementation("com.github.wangchenyan:android-common:1.0.0-beta11")
+    implementation("com.github.wangchenyan:android-common:1.0.0-beta12")
     implementation("com.github.jenly1314.UltraSwipeRefresh:refresh:1.0.0")
 }

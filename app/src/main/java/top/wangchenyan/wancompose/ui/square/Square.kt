@@ -14,13 +14,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.king.ultraswiperefresh.NestedScrollMode
 import com.king.ultraswiperefresh.UltraSwipeRefresh
+import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.square.viewmodel.SquareViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
 import top.wangchenyan.wancompose.widget.TitleLayout
-import top.wangchenyan.wancompose.widget.Toaster
 
 /**
  * Created by wcy on 2021/3/31.
@@ -38,7 +38,7 @@ fun Square(navController: NavHostController) {
             title = "广场",
             menuIcon = R.drawable.ic_share,
             onMenuClick = {
-                Toaster.show("分享")
+                ToastUtils.show("分享")
             }
         )
         PageLoading(

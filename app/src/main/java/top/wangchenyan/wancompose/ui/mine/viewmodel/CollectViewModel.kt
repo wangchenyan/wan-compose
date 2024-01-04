@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.launch
-import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.common.net.apiCall
+import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.widget.LoadState
-import top.wangchenyan.wancompose.widget.Toaster
 
 /**
  * Created by wcy on 2021/4/1.
@@ -56,7 +56,7 @@ class CollectViewModel : ViewModel() {
                 refreshState.isRefreshing = false
             } else {
                 refreshState.isRefreshing = false
-                Toaster.show("加载失败")
+                ToastUtils.show("加载失败")
             }
         }
     }
@@ -73,7 +73,7 @@ class CollectViewModel : ViewModel() {
                 refreshState.isLoading = false
             } else {
                 refreshState.isLoading = false
-                Toaster.show("加载失败")
+                ToastUtils.show("加载失败")
             }
         }
     }
@@ -101,7 +101,7 @@ class CollectViewModel : ViewModel() {
                     article.collect = false
                     return true
                 } else {
-                    Toaster.show(res.msg)
+                    ToastUtils.show(res.msg)
                 }
             } else {
                 val res = apiCall { Api.get().collect(id) }
@@ -109,7 +109,7 @@ class CollectViewModel : ViewModel() {
                     article.collect = true
                     return true
                 } else {
-                    Toaster.show(res.msg)
+                    ToastUtils.show(res.msg)
                 }
             }
             return false

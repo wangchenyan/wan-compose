@@ -8,10 +8,10 @@ import me.wcy.wanandroid.compose.ui.search.HotKey
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.http.*
-import top.wangchenyan.android.common.CommonApp
-import top.wangchenyan.android.common.net.NetResult
-import top.wangchenyan.android.common.net.gson.GsonConverterFactory
-import top.wangchenyan.android.common.utils.GsonUtils
+import top.wangchenyan.common.CommonApp
+import top.wangchenyan.common.net.NetResult
+import top.wangchenyan.common.net.gson.GsonConverterFactory
+import top.wangchenyan.common.utils.GsonUtils
 import top.wangchenyan.wancompose.auth.User
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.home.model.ArticleList

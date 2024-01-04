@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import me.wcy.mockhttp.MockHttp
 import me.wcy.mockhttp.MockHttpOptions
-import top.wangchenyan.android.common.CommonApp
+import top.wangchenyan.common.CommonApp
 import top.wangchenyan.wancompose.auth.AuthManager
 
 /**
@@ -17,9 +17,9 @@ class WanApplication : Application() {
         CommonApp.init {
             test = true
             apiConfig({}) {
-                codeJsonName = "errorCode"
-                msgJsonName = "errorMsg"
-                dataJsonName = "data"
+                codeJsonNames = listOf("errorCode")
+                msgJsonNames = listOf("errorMsg")
+                dataJsonNames = listOf("data")
                 successCode = 0
             }
         }

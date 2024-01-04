@@ -6,7 +6,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import top.wangchenyan.android.common.utils.GsonUtils
+import top.wangchenyan.common.utils.GsonUtils
 import java.io.IOException
 
 /**

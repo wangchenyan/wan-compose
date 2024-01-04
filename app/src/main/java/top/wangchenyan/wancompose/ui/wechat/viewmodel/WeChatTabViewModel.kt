@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.common.net.apiCall
+import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
 import top.wangchenyan.wancompose.widget.LoadState
-import top.wangchenyan.wancompose.widget.Toaster
 
 class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long) {
     var pageState by mutableStateOf(LoadState.LOADING)
@@ -55,7 +55,7 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
                 refreshState.isLoading = false
             } else {
                 refreshState.isLoading = false
-                Toaster.show("加载失败")
+                ToastUtils.show("加载失败")
             }
         }
     }

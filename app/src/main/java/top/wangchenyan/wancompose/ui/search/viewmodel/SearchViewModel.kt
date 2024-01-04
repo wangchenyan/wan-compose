@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.wcy.wanandroid.compose.ui.search.HotKey
-import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.storage.HistoryPreferences
 

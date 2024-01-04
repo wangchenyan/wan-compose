@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import top.wangchenyan.android.common.CommonApp
-import top.wangchenyan.android.common.net.apiCall
+import top.wangchenyan.common.CommonApp
+import top.wangchenyan.common.net.apiCall
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.storage.AppPreferences
 
