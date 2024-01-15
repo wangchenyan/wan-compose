@@ -4,7 +4,6 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import me.wcy.mockhttp.MockHttpInterceptor
-import me.wcy.wanandroid.compose.ui.search.HotKey
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.http.*
@@ -16,6 +15,7 @@ import top.wangchenyan.wancompose.auth.User
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.home.model.ArticleList
 import top.wangchenyan.wancompose.ui.home.model.HomeBannerData
+import top.wangchenyan.wancompose.ui.search.model.HotKey
 import top.wangchenyan.wancompose.ui.wechat.model.WeChatAuthor
 import java.util.concurrent.TimeUnit
 

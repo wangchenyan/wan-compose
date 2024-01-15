@@ -1,4 +1,4 @@
-package me.wcy.wanandroid.compose.ui.search
+package top.wangchenyan.wancompose.ui.search.model
 
 import com.google.gson.annotations.SerializedName
 
