@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.launch
+import top.wangchenyan.common.ext.toast
 import top.wangchenyan.common.net.apiCall
-import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
@@ -63,7 +63,7 @@ class SearchResultViewModel : ViewModel() {
                 refreshState.isRefreshing = false
             } else {
                 refreshState.isRefreshing = false
-                ToastUtils.show("加载失败")
+                toast("加载失败")
             }
         }
     }
@@ -80,7 +80,7 @@ class SearchResultViewModel : ViewModel() {
                 refreshState.isLoading = false
             } else {
                 refreshState.isLoading = false
-                ToastUtils.show("加载失败")
+                toast("加载失败")
             }
         }
     }

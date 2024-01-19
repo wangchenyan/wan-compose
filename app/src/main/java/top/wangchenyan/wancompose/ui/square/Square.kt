@@ -14,7 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.king.ultraswiperefresh.NestedScrollMode
 import com.king.ultraswiperefresh.UltraSwipeRefresh
-import top.wangchenyan.common.utils.ToastUtils
+import top.wangchenyan.common.ext.toast
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.theme.Colors
 import top.wangchenyan.wancompose.ui.home.ArticleItem
@@ -38,7 +38,7 @@ fun Square(navController: NavHostController) {
             title = "广场",
             menuIcon = R.drawable.ic_share,
             onMenuClick = {
-                ToastUtils.show("分享")
+                toast("分享")
             }
         )
         PageLoading(

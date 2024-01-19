@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import top.wangchenyan.common.ext.toast
 import top.wangchenyan.common.net.apiCall
-import top.wangchenyan.common.utils.ToastUtils
 import top.wangchenyan.wancompose.api.Api
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.mine.viewmodel.CollectViewModel
@@ -55,7 +55,7 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
                 refreshState.isLoading = false
             } else {
                 refreshState.isLoading = false
-                ToastUtils.show("加载失败")
+                toast("加载失败")
             }
         }
     }

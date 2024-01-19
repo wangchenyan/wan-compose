@@ -22,17 +22,20 @@ fun Main(navController: NavHostController) {
     Column(Modifier.fillMaxSize()) {
         val scope = rememberCoroutineScope()
         val pagerState = rememberPagerState(pageCount = 4, initialOffscreenLimit = 3)
-        HorizontalPager(pagerState, Modifier.weight(1f)) { page ->
+        HorizontalPager(pagerState, Modifier.weight(1f), dragEnabled = false) { page ->
             when (page) {
                 0 -> {
                     Home(navController)
                 }
+
                 1 -> {
                     Square(navController)
                 }
+
                 2 -> {
                     WeChat(navController)
                 }
+
                 3 -> {
                     Mine(navController)
                 }
