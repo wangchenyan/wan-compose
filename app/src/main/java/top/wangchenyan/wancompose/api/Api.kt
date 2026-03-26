@@ -17,7 +17,12 @@ import top.wangchenyan.wancompose.ui.home.model.ArticleList
 import top.wangchenyan.wancompose.ui.home.model.HomeBannerData
 import top.wangchenyan.wancompose.ui.search.model.HotKey
 import top.wangchenyan.wancompose.ui.wechat.model.WeChatAuthor
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 /**
  * Created by wcy on 2021/4/1.
@@ -87,6 +92,27 @@ interface Api {
         private const val BASE_URL = "https://www.wanandroid.com/"
 
         private val okHttpClient: OkHttpClient by lazy {
+            val trustAllCerts = arrayOf<TrustManager>(
+                object : X509TrustManager {
+                    override fun checkClientTrusted(
+                        chain: Array<X509Certificate>,
+                        authType: String
+                    ) {
+                    }
+
+                    override fun checkServerTrusted(
+                        chain: Array<X509Certificate>,
+                        authType: String
+                    ) {
+                    }
+
+                    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+                }
+            )
+
+            val sslContext = SSLContext.getInstance("TLS")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+
             OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
@@ -98,6 +124,13 @@ interface Api {
                         SharedPrefsCookiePersistor(CommonApp.app)
                     )
                 )
+                .sslSocketFactory(
+                    sslContext.socketFactory,
+                    trustAllCerts[0] as X509TrustManager
+                )
+                .hostnameVerifier { hostname, _ ->
+                    hostname == "www.wanandroid.com"
+                }
                 .build()
         }
 
