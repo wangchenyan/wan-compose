@@ -118,11 +118,12 @@ fun ArticleItem(
     article: Article,
     onCollectClick: () -> Unit = {}
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .clickable {
-            navController.navigate("web?url=${article.link}")
-        }) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate("web?url=${article.link}")
+            }) {
         Column(
             Modifier.padding(16.dp, 10.dp)
         ) {
@@ -135,7 +136,7 @@ fun ArticleItem(
                             .border(0.5.dp, it.getColor(), RoundedCornerShape(3.dp))
                             .padding(2.dp, 1.dp),
                         it.getColor(),
-                        10.sp
+                        fontSize = 10.sp
                     )
                     Spacer(
                         modifier = Modifier
@@ -150,7 +151,7 @@ fun ArticleItem(
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     Colors.text_h2,
-                    12.sp
+                    fontSize = 12.sp
                 )
                 Spacer(
                     modifier = Modifier
@@ -163,7 +164,7 @@ fun ArticleItem(
                     Modifier
                         .align(Alignment.CenterVertically),
                     Colors.text_h2,
-                    12.sp
+                    fontSize = 12.sp
                 )
             }
             Spacer(
@@ -202,7 +203,7 @@ fun ArticleItem(
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     Colors.text_h2,
-                    12.sp,
+                    fontSize = 12.sp,
                 )
                 val iconRes = if (article.collect) R.drawable.ic_like_fill else R.drawable.ic_like
                 val tint = if (article.collect) Colors.red else Colors.text_h2

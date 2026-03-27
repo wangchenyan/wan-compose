@@ -1,16 +1,17 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 36
     namespace = "top.wangchenyan.wancompose"
 
     defaultConfig {
         applicationId = "top.wangchenyan.wancompose"
-        minSdk = 21
-        targetSdk = 33
+        minSdk = 23
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -39,37 +40,34 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation("com.google.accompanist:accompanist-pager:0.10.0")
-    implementation("com.google.accompanist:accompanist-coil:0.10.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.10.0")
-    implementation("com.google.accompanist:accompanist-flowlayout:0.10.0")
-    implementation("com.github.wangchenyan.mock-http:mock-http:1.7")
-    implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
-    implementation("com.github.wangchenyan:android-common:1.0.0-beta12")
-    implementation("com.github.jenly1314.UltraSwipeRefresh:refresh:1.0.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.coil)
+    implementation(libs.accompanist.swiperefresh)
+    implementation(libs.accompanist.flowlayout)
+    implementation(libs.mock.http)
+    implementation(libs.persistentcookiejar)
+    implementation(libs.android.common)
+    implementation(libs.refresh)
 }
