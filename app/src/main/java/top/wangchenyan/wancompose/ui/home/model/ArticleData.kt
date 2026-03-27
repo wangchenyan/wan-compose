@@ -22,7 +22,7 @@ data class Article(
     @SerializedName("canEdit") val canEdit: Boolean = false,
     @SerializedName("chapterId") val chapterId: Int = 0,
     @SerializedName("chapterName") val chapterName: String = "",
-    @SerializedName("collect") var collect: Boolean = false,
+    @SerializedName("collect") val collect: Boolean = false,
     @SerializedName("courseId") val courseId: Int = 0,
     @SerializedName("desc") val desc: String = "",
     @SerializedName("descMd") val descMd: String = "",

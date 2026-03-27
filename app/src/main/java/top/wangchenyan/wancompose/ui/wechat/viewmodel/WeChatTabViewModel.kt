@@ -63,7 +63,13 @@ class WeChatTabViewModel(private val scope: CoroutineScope, private val id: Long
     fun collect(article: Article) {
         scope.launch {
             showLoading = true
-            CollectViewModel.collect(article)
+            val success = CollectViewModel.collect(article)
+            if (success) {
+                val target = article.copy(collect = article.collect.not())
+                articleList = articleList.map {
+                    if (it.id == article.id) target else it
+                }
+            }
             showLoading = false
         }
     }

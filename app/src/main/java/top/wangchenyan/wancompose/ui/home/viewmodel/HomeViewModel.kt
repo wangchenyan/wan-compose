@@ -106,7 +106,13 @@ class HomeViewModel : ViewModel() {
     fun collect(article: Article) {
         viewModelScope.launch {
             showLoading = true
-            CollectViewModel.collect(article)
+            val success = CollectViewModel.collect(article)
+            if (success) {
+                val target = article.copy(collect = article.collect.not())
+                list = list.map {
+                    if (it is Article && it.id == article.id) target else it
+                }
+            }
             showLoading = false
         }
     }

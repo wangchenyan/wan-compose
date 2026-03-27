@@ -39,7 +39,7 @@ class CollectViewModel : ViewModel() {
             val articleList = apiCall { Api.get().getCollectArticleList() }
             if (articleList.isSuccessWithData()) {
                 pageState = LoadState.SUCCESS
-                list = articleList.data!!.datas.onEach { it.collect = true }
+                list = articleList.data!!.datas.map { it.copy(collect = true) }
             } else {
                 pageState = LoadState.FAIL
             }
@@ -52,7 +52,7 @@ class CollectViewModel : ViewModel() {
             refreshState.isRefreshing = true
             val articleList = apiCall { Api.get().getCollectArticleList() }
             if (articleList.isSuccessWithData()) {
-                list = articleList.data!!.datas.onEach { it.collect = true }
+                list = articleList.data!!.datas.map { it.copy(collect = true) }
                 refreshState.isRefreshing = false
             } else {
                 refreshState.isRefreshing = false
@@ -68,7 +68,7 @@ class CollectViewModel : ViewModel() {
             if (articleList.isSuccessWithData()) {
                 page++
                 list = list.toMutableList().apply {
-                    addAll(articleList.data!!.datas.onEach { it.collect = true })
+                    addAll(articleList.data!!.datas.map { it.copy(collect = true) })
                 }
                 refreshState.isLoading = false
             } else {
@@ -98,7 +98,6 @@ class CollectViewModel : ViewModel() {
             if (article.collect) {
                 val res = apiCall { Api.get().uncollect(id) }
                 if (res.isSuccess()) {
-                    article.collect = false
                     return true
                 } else {
                     toast(res.msg)
@@ -106,7 +105,6 @@ class CollectViewModel : ViewModel() {
             } else {
                 val res = apiCall { Api.get().collect(id) }
                 if (res.isSuccess()) {
-                    article.collect = true
                     return true
                 } else {
                     toast(res.msg)
