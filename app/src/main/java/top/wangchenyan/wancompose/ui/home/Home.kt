@@ -19,12 +19,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +38,7 @@ import com.king.ultraswiperefresh.NestedScrollMode
 import com.king.ultraswiperefresh.UltraSwipeRefresh
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.auth.AuthManager
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 import top.wangchenyan.wancompose.ui.home.model.Article
 import top.wangchenyan.wancompose.ui.home.model.HomeBannerData
 import top.wangchenyan.wancompose.ui.home.viewmodel.HomeViewModel
@@ -53,10 +55,11 @@ import top.wangchenyan.wancompose.widget.TitleLayout
 @Composable
 fun Home(navController: NavHostController) {
     val viewModel: HomeViewModel = viewModel()
+    val colors = AppTheme.colors
     Column(
         Modifier
             .fillMaxSize()
-            .background(Colors.background)
+            .background(colors.bg)
     ) {
         TitleLayout(
             title = "首页",
@@ -65,31 +68,58 @@ fun Home(navController: NavHostController) {
                 navController.navigate("search")
             }
         )
-        PageLoading(
-            loadState = viewModel.pageState,
-            showLoading = viewModel.showLoading,
-            onReload = { viewModel.firstLoad() }) {
-            UltraSwipeRefresh(
-                state = viewModel.refreshState,
-                onRefresh = { viewModel.onRefresh() },
-                onLoadMore = { viewModel.onLoad() },
-                headerScrollMode = NestedScrollMode.FixedContent,
-                footerScrollMode = NestedScrollMode.FixedContent,
+        HomeContent(navController, viewModel)
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun HomeContent(
+    navController: NavHostController,
+    viewModel: HomeViewModel
+) {
+    val colors = AppTheme.colors
+    PageLoading(
+        loadState = viewModel.pageState,
+        showLoading = viewModel.showLoading,
+        onReload = { viewModel.firstLoad() }
+    ) {
+        UltraSwipeRefresh(
+            state = viewModel.refreshState,
+            onRefresh = { viewModel.onRefresh() },
+            onLoadMore = { viewModel.onLoad() },
+            headerScrollMode = NestedScrollMode.FixedContent,
+            footerScrollMode = NestedScrollMode.FixedContent,
+        ) {
+            LazyColumn(
+                Modifier
+                    .fillMaxSize()
+                    .background(colors.bgOverlay)
             ) {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Colors.white)
-                ) {
-                    itemsIndexed(viewModel.list) { index, item ->
-                        if (item is List<*>) {
-                            BannerItem(navController, item as List<HomeBannerData>)
-                        } else if (item is Article) {
-                            ArticleItem(navController, item) {
-                                viewModel.collect(item)
-                            }
-                            Divider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
+                itemsIndexed(
+                    items = viewModel.list,
+                    key = { index, item ->
+                        when (item) {
+                            is List<*> -> "banner"
+                            is Article -> item.id
+                            else -> index
                         }
+                    },
+                    contentType = { _, item ->
+                        when (item) {
+                            is List<*> -> "banner"
+                            is Article -> "article"
+                            else -> "unknown"
+                        }
+                    }
+                ) { _, item ->
+                    if (item is List<*>) {
+                        BannerItem(navController, item as List<HomeBannerData>)
+                    } else if (item is Article) {
+                        ArticleItem(navController, item) {
+                            viewModel.collect(item)
+                        }
+                        HorizontalDivider(Modifier.padding(16.dp, 0.dp), thickness = 0.5.dp)
                     }
                 }
             }
@@ -100,8 +130,10 @@ fun Home(navController: NavHostController) {
 @ExperimentalPagerApi
 @Composable
 fun BannerItem(navController: NavHostController, list: List<HomeBannerData>) {
-    val dataList = list.map {
-        BannerData(it.title, it.imagePath, it.url)
+    val dataList = remember(list) {
+        list.map {
+            BannerData(it.title, it.imagePath, it.url)
+        }
     }
     Banner(
         navController = navController,
@@ -118,6 +150,16 @@ fun ArticleItem(
     article: Article,
     onCollectClick: () -> Unit = {}
 ) {
+    val colors = AppTheme.colors
+    val chapter = remember(article.superChapterName, article.chapterName) {
+        buildString {
+            append(article.superChapterName)
+            if (article.superChapterName.isNotEmpty() && article.chapterName.isNotEmpty()) {
+                append(" / ")
+            }
+            append(article.chapterName)
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,9 +175,9 @@ fun ArticleItem(
                         it.name,
                         Modifier
                             .align(Alignment.CenterVertically)
-                            .border(0.5.dp, it.getColor(), RoundedCornerShape(3.dp))
+                            .border(0.5.dp, it.getColor(colors), RoundedCornerShape(3.dp))
                             .padding(2.dp, 1.dp),
-                        it.getColor(),
+                        it.getColor(colors),
                         fontSize = 10.sp
                     )
                     Spacer(
@@ -150,7 +192,7 @@ fun ArticleItem(
                     Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
-                    Colors.text_h2,
+                    colors.textH2,
                     fontSize = 12.sp
                 )
                 Spacer(
@@ -163,7 +205,7 @@ fun ArticleItem(
                     article.niceDate,
                     Modifier
                         .align(Alignment.CenterVertically),
-                    Colors.text_h2,
+                    colors.textH2,
                     fontSize = 12.sp
                 )
             }
@@ -178,7 +220,7 @@ fun ArticleItem(
                 factory = { context ->
                     TextView(context).apply {
                         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-                        setTextColor(Colors.text_h1_int.toInt())
+                        setTextColor(colors.textH1.toArgb())
                         maxLines = 2
                         ellipsize = TextUtils.TruncateAt.END
                     }
@@ -192,21 +234,16 @@ fun ArticleItem(
                     .fillMaxWidth()
                     .padding(top = 5.dp)
             ) {
-                val chapter = StringBuilder(article.superChapterName)
-                if (article.superChapterName.isNotEmpty() && article.chapterName.isNotEmpty()) {
-                    chapter.append(" / ")
-                }
-                chapter.append(article.chapterName)
                 Text(
-                    chapter.toString(),
+                    chapter,
                     Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
-                    Colors.text_h2,
+                    colors.textH2,
                     fontSize = 12.sp,
                 )
                 val iconRes = if (article.collect) R.drawable.ic_like_fill else R.drawable.ic_like
-                val tint = if (article.collect) Colors.red else Colors.text_h2
+                val tint = if (article.collect) colors.red else colors.textH2
                 Icon(
                     painter = painterResource(id = iconRes),
                     contentDescription = "收藏",

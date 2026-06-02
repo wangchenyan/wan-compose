@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.wangchenyan.wancompose.R
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 
 /**
  * Created by wcy on 2021/3/30.
@@ -38,10 +38,11 @@ fun BottomTab(
     current: Int,
     currentChanged: (Int) -> Unit
 ) {
+    val colors = AppTheme.colors
     Row(
         Modifier
             .fillMaxWidth()
-            .background(Colors.bottomBar)
+            .background(colors.bottomBar)
             .padding(4.dp, 0.dp)
             .navigationBarsPadding()
     ) {
@@ -53,7 +54,7 @@ fun BottomTab(
                 },
             if (current == 0) R.drawable.ic_tab_home_fill else R.drawable.ic_tab_home,
             "首页",
-            if (current == 0) Colors.main else Colors.unselect
+            if (current == 0) colors.main else colors.unselect
         )
         TabItem(
             Modifier
@@ -63,7 +64,7 @@ fun BottomTab(
                 },
             if (current == 1) R.drawable.ic_tab_discover_fill else R.drawable.ic_tab_discover,
             "广场",
-            if (current == 1) Colors.main else Colors.unselect
+            if (current == 1) colors.main else colors.unselect
         )
         TabItem(
             Modifier
@@ -73,7 +74,7 @@ fun BottomTab(
                 },
             if (current == 2) R.drawable.ic_tab_wechat_fill else R.drawable.ic_tab_wechat,
             "公众号",
-            if (current == 2) Colors.main else Colors.unselect
+            if (current == 2) colors.main else colors.unselect
         )
         TabItem(
             Modifier
@@ -83,7 +84,7 @@ fun BottomTab(
                 },
             if (current == 3) R.drawable.ic_tab_my_fill else R.drawable.ic_tab_my,
             "我的",
-            if (current == 3) Colors.main else Colors.unselect
+            if (current == 3) colors.main else colors.unselect
         )
     }
 }

@@ -117,11 +117,10 @@ fun Web(navController: NavHostController, url: String) {
             }, Modifier.fillMaxSize())
             if (viewModel.progress < 100) {
                 LinearProgressIndicator(
-                    progress = viewModel.progress / 100f,
+                    progress = { viewModel.progress / 100f },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(2.dp),
-                    color = Color.Transparent
                 )
             }
         }

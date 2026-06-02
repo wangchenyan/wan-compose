@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.wangchenyan.wancompose.R
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 
 /**
  * Created by wcy on 2021/3/31.
@@ -32,10 +32,11 @@ fun TitleLayout(
     @DrawableRes menuIcon: Int? = null,
     onMenuClick: (() -> Unit)? = null,
 ) {
+    val colors = AppTheme.colors
     Row(
         Modifier
             .fillMaxWidth()
-            .background(Colors.titleBar)
+            .background(colors.titleBar)
             .statusBarsPadding()
             .height(48.dp)
     ) {
@@ -50,7 +51,7 @@ fun TitleLayout(
                     .padding(14.dp),
                 painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = "返回",
-                tint = Colors.text_h1
+                tint = colors.textH1
             )
         }
         Text(
@@ -59,7 +60,7 @@ fun TitleLayout(
                 .align(alignment = Alignment.CenterVertically)
                 .padding(start = 16.dp, end = 16.dp)
                 .weight(1f),
-            color = Colors.text_h1,
+            color = colors.textH1,
             fontSize = 17.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -75,7 +76,7 @@ fun TitleLayout(
                     .padding(14.dp),
                 painter = painterResource(id = menuIcon),
                 contentDescription = "",
-                tint = Colors.text_h1
+                tint = colors.textH1
             )
         }
     }

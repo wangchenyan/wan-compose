@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -31,21 +30,22 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.flowlayout.FlowRow
 import top.wangchenyan.common.ext.toast
 import top.wangchenyan.wancompose.R
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 import top.wangchenyan.wancompose.ui.search.viewmodel.SearchViewModel
 
 @Composable
 fun Search(navController: NavHostController) {
     val viewModel: SearchViewModel = viewModel()
+    val colors = AppTheme.colors
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.background)
+            .background(colors.bg)
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .background(Colors.titleBar)
+                .background(colors.titleBar)
                 .statusBarsPadding()
                 .height(48.dp)
         ) {
@@ -59,7 +59,7 @@ fun Search(navController: NavHostController) {
                     .padding(14.dp),
                 painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = "返回",
-                tint = Colors.text_h1
+                tint = colors.textH1
             )
             BasicTextField(
                 value = viewModel.keyword,
@@ -70,7 +70,7 @@ fun Search(navController: NavHostController) {
                     .align(alignment = Alignment.CenterVertically)
                     .padding(start = 16.dp, end = 16.dp)
                     .weight(1f),
-                textStyle = TextStyle(fontSize = 16.sp),
+                textStyle = TextStyle(color = colors.textH1, fontSize = 16.sp),
                 singleLine = true
             )
             Icon(
@@ -83,7 +83,7 @@ fun Search(navController: NavHostController) {
                     .padding(14.dp),
                 painter = painterResource(id = R.drawable.ic_close),
                 contentDescription = "清除",
-                tint = Colors.text_h1
+                tint = colors.textH1
             )
             Icon(
                 modifier = Modifier
@@ -100,7 +100,7 @@ fun Search(navController: NavHostController) {
                     .padding(14.dp),
                 painter = painterResource(id = R.drawable.ic_search),
                 contentDescription = "",
-                tint = Colors.text_h1
+                tint = colors.textH1
             )
         }
         Column(
@@ -111,7 +111,7 @@ fun Search(navController: NavHostController) {
             Text(
                 text = "热门搜索",
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = Colors.text_h1,
+                color = colors.textH1,
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -126,7 +126,7 @@ fun Search(navController: NavHostController) {
                     Box(
                         modifier = Modifier
                             .background(
-                                color = Color(0xFFDDDDDD),
+                                color = colors.bgOverlay,
                                 shape = RoundedCornerShape(percent = 50)
                             )
                             .clickable {
@@ -138,7 +138,7 @@ fun Search(navController: NavHostController) {
                         Text(
                             text = it.name,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            color = Colors.text_h1,
+                            color = colors.textH1,
                             fontSize = 14.sp,
                             maxLines = 1
                         )
@@ -149,12 +149,15 @@ fun Search(navController: NavHostController) {
             Text(
                 text = "搜索历史",
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = Colors.text_h1,
+                color = colors.textH1,
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                itemsIndexed(viewModel.history) { index, item ->
+                itemsIndexed(
+                    items = viewModel.history,
+                    key = { index, item -> "${item}_$index" }
+                ) { _, item ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -172,7 +175,7 @@ fun Search(navController: NavHostController) {
                                 modifier = Modifier
                                     .weight(1f)
                                     .align(Alignment.CenterVertically),
-                                color = Colors.text_h2,
+                                color = colors.textH2,
                                 fontSize = 14.sp,
                                 maxLines = 1
                             )
@@ -184,7 +187,7 @@ fun Search(navController: NavHostController) {
                                     .clickable {
                                         viewModel.removeHistory(item)
                                     },
-                                tint = Colors.text_h2
+                                tint = colors.textH2
                             )
                         }
                     }

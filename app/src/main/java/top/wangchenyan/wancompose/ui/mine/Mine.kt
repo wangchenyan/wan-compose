@@ -18,7 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import top.wangchenyan.wancompose.R
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 import top.wangchenyan.wancompose.ui.mine.viewmodel.MineViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
 
@@ -44,10 +44,11 @@ import top.wangchenyan.wancompose.widget.PageLoading
 @Composable
 fun Mine(navController: NavHostController) {
     val viewModel: MineViewModel = viewModel()
+    val colors = AppTheme.colors
     PageLoading(
         showLoading = viewModel.showLoading,
         modifier = Modifier
-            .background(Colors.background)
+            .background(colors.bg)
             .statusBarsPadding()
     ) {
         Column(
@@ -74,12 +75,12 @@ fun Mine(navController: NavHostController) {
                         navController.navigate("login")
                     }
                 },
-                color = Colors.text_h1
+                color = colors.textH1
             )
             Spacer(modifier = Modifier.height(15.dp))
             Row {
                 Box(
-                    modifier = Modifier.background(Colors.green)
+                    modifier = Modifier.background(colors.main)
                 ) {
                     Text(
                         text = "LV" + (viewModel.user?.level ?: ""),
@@ -90,7 +91,7 @@ fun Mine(navController: NavHostController) {
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 Box(
-                    modifier = Modifier.background(Colors.blue)
+                    modifier = Modifier.background(colors.blue)
                 ) {
                     Text(
                         text = "排名" + (viewModel.user?.rank ?: ""),
@@ -105,7 +106,7 @@ fun Mine(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .background(Color.White)
+                    .background(colors.bgOverlay)
                     .clickable {
                         if (viewModel.user == null) {
                             navController.navigate("login")
@@ -118,24 +119,24 @@ fun Mine(navController: NavHostController) {
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(1f),
-                    color = Colors.text_h1
+                    color = colors.textH1
                 )
                 if (viewModel.user != null) {
                     Text(
                         text = viewModel.user!!.coinCount.toString(),
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
-                        color = Colors.text_h2
+                        color = colors.textH2
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))
             }
-            Divider(color = Colors.background, thickness = 0.5.dp)
+            HorizontalDivider(color = colors.bg, thickness = 0.5.dp)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .background(Color.White)
+                    .background(colors.bgOverlay)
                     .clickable {
                         if (viewModel.user == null) {
                             navController.navigate("login")
@@ -150,7 +151,7 @@ fun Mine(navController: NavHostController) {
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(1f),
-                    color = Colors.text_h1
+                    color = colors.textH1
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -158,7 +159,7 @@ fun Mine(navController: NavHostController) {
                     modifier = Modifier
                         .size(20.dp)
                         .align(Alignment.CenterVertically),
-                    tint = Colors.text_h2
+                    tint = colors.textH2
                 )
                 Spacer(modifier = Modifier.width(16.dp))
             }
@@ -172,7 +173,7 @@ fun Mine(navController: NavHostController) {
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(percent = 50),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Colors.red,
+                        containerColor = colors.red,
                         contentColor = Color.White
                     )
                 ) {

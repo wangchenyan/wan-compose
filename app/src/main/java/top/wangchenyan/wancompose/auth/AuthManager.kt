@@ -29,11 +29,11 @@ object AuthManager {
         val userRes = apiCall { Api.get().getUserCoin() }
         if (userRes.isSuccessWithData()) {
             val user = userRes.data!!
-            val rawUser = userInternal.value!!.apply {
-                coinCount = user.coinCount
-                level = user.level
-                rank = user.rank
-            }
+            val rawUser = userInternal.value!!.copy(
+                coinCount = user.coinCount,
+                level = user.level,
+                rank = user.rank,
+            )
             AppPreferences.setUser(rawUser)
             userInternal.postValue(rawUser)
         } else if (userRes.code == -1001) {

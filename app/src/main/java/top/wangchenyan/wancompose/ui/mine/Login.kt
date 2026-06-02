@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.AppTheme
 import top.wangchenyan.wancompose.ui.mine.viewmodel.LoginViewModel
 import top.wangchenyan.wancompose.widget.PageLoading
 import top.wangchenyan.wancompose.widget.TitleLayout
@@ -32,8 +32,9 @@ import top.wangchenyan.wancompose.widget.TitleLayout
 @Composable
 fun Login(navController: NavHostController) {
     val viewModel: LoginViewModel = viewModel()
+    val colors = AppTheme.colors
     PageLoading(
-        modifier = Modifier.background(Colors.background),
+        modifier = Modifier.background(colors.bg),
         showLoading = viewModel.showLoading
     ) {
         Column(Modifier.fillMaxSize()) {
@@ -61,7 +62,10 @@ fun Login(navController: NavHostController) {
                         unfocusedBorderColor = Color.Transparent
                     )
                 )
-                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    thickness = 0.5.dp
+                )
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedTextField(
                     value = viewModel.password,
@@ -79,7 +83,10 @@ fun Login(navController: NavHostController) {
                         unfocusedBorderColor = Color.Transparent
                     )
                 )
-                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    thickness = 0.5.dp
+                )
                 Spacer(modifier = Modifier.height(50.dp))
                 Button(
                     onClick = { viewModel.login(navController) },
@@ -89,7 +96,7 @@ fun Login(navController: NavHostController) {
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(percent = 50),
                 ) {
-                    Text(text = "登录", fontSize = 15.sp)
+                    Text(text = "登录", fontSize = 15.sp, color = Color.White)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
@@ -100,7 +107,7 @@ fun Login(navController: NavHostController) {
                         .clickable {
                             navController.navigate("register")
                         },
-                    color = Colors.text_h2,
+                    color = colors.textH2,
                     fontSize = 15.sp
                 )
             }

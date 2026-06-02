@@ -6,7 +6,12 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import me.wcy.mockhttp.MockHttpInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 import top.wangchenyan.common.CommonApp
 import top.wangchenyan.common.net.NetResult
 import top.wangchenyan.common.net.gson.GsonConverterFactory
@@ -89,7 +94,8 @@ interface Api {
     ): NetResult<ArticleList>
 
     companion object {
-        private const val BASE_URL = "https://www.wanandroid.com/"
+        private const val HOST_NAME = "wanandroid.com"
+        private const val BASE_URL = "https://$HOST_NAME/"
 
         private val okHttpClient: OkHttpClient by lazy {
             val trustAllCerts = arrayOf<TrustManager>(
@@ -129,7 +135,7 @@ interface Api {
                     trustAllCerts[0] as X509TrustManager
                 )
                 .hostnameVerifier { hostname, _ ->
-                    hostname == "www.wanandroid.com"
+                    hostname == HOST_NAME
                 }
                 .build()
         }

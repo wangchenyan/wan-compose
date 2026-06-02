@@ -2,7 +2,7 @@ package top.wangchenyan.wancompose.ui.home.model
 
 import androidx.compose.ui.graphics.Color
 import com.google.gson.annotations.SerializedName
-import top.wangchenyan.wancompose.theme.Colors
+import top.wangchenyan.wancompose.theme.WanandroidExtraColors
 
 data class ArticleList(
     @SerializedName("curPage") val curPage: Int = 0,
@@ -69,14 +69,14 @@ data class ArticleTag(
     @SerializedName("name") val name: String = "",
     @SerializedName("url") val url: String = ""
 ) {
-    fun getColor(): Color {
+    fun getColor(colors: WanandroidExtraColors): Color {
         return when (name) {
-            "置顶" -> Colors.red
+            "置顶" -> colors.red
             "本站发布" -> Color(0xFF2196F3)
             "问答" -> Color(0xFF00BCD4)
             "公众号" -> Color(0xFF4CAF50)
             "项目" -> Color(0xFF009688)
-            else -> Colors.main
+            else -> colors.main
         }
     }
 }

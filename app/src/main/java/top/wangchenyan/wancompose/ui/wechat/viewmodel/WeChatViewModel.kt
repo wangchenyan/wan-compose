@@ -33,4 +33,15 @@ class WeChatViewModel : ViewModel() {
             }
         }
     }
+
+    fun getTabViewModel(id: Long): WeChatTabViewModel {
+        val tabViewModel = tabViewModelMap[id]
+        if (tabViewModel != null) {
+            return tabViewModel
+        }
+
+        return WeChatTabViewModel(viewModelScope, id).also {
+            tabViewModelMap.put(id, it)
+        }
+    }
 }
