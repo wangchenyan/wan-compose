@@ -16,8 +16,8 @@ import androidx.navigation.NavHostController
 import com.king.ultraswiperefresh.NestedScrollMode
 import com.king.ultraswiperefresh.UltraSwipeRefresh
 import top.wangchenyan.wancompose.theme.AppTheme
-import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.search.viewmodel.SearchResultViewModel
+import top.wangchenyan.wancompose.widget.ArticleItem
 import top.wangchenyan.wancompose.widget.PageLoading
 import top.wangchenyan.wancompose.widget.TitleLayout
 

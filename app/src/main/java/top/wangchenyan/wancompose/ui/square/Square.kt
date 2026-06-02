@@ -17,8 +17,8 @@ import com.king.ultraswiperefresh.UltraSwipeRefresh
 import top.wangchenyan.common.ext.toast
 import top.wangchenyan.wancompose.R
 import top.wangchenyan.wancompose.theme.AppTheme
-import top.wangchenyan.wancompose.ui.home.ArticleItem
 import top.wangchenyan.wancompose.ui.square.viewmodel.SquareViewModel
+import top.wangchenyan.wancompose.widget.ArticleItem
 import top.wangchenyan.wancompose.widget.PageLoading
 import top.wangchenyan.wancompose.widget.TitleLayout
 
